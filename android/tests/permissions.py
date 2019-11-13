@@ -160,6 +160,7 @@ apk_permissions = {
 	"android.permission.WRITE_SETTINGS": "Allows an application to read or write the system settings.",
 	"android.permission.WRITE_SYNC_SETTINGS": "Allows applications to write the sync settings.",
 	"android.permission.WRITE_VOICEMAIL": "Allows an application to modify and remove existing voicemails in the system.",
+	"com.google.android.c2dm.permission.RECEIVE": "Google Cloud Messaging permission required to receive messages from the cloud",
 }
 
 def run_tests(apk, r2, u, r2h):
