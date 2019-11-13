@@ -1,0 +1,65 @@
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#id-drop-area {
+	border: 2px dashed #ccc;
+	border-radius: 20px;
+	width: 480px;
+	font-family: sans-serif;
+	margin: 100px auto;
+	padding: 20px;
+}
+
+#id-drop-area.highlight {
+	border-color: purple;
+}
+
+p {
+	margin-top: 0;
+}
+
+.drag-n-drop-form {
+	margin-bottom: 10px;
+}
+
+.button {
+	display: inline-block;
+	padding: 10px;
+	background: #ccc;
+	cursor: pointer;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+.button:hover {
+	background: #ddd;
+}
+
+#id-file {
+	display: none;
+}
+
+.logs-code {
+	overflow: auto;
+	background-color: #33334d;
+	width: 90%;
+	height: 100%;
+	margin: auto;
+	padding: 10px;
+}
+
+.log-error {
+	color: #ff3300;
+}
+
+.log-warning {
+	color: #ffcc66;
+}
+
+.log-info {
+	color: #66ff66;
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Fufluns - Mobile App Inspector</title>
+	<link rel="stylesheet" type="text/css" href="common.css">
+	<script type="text/javascript" src="index.js"></script>
+</head>
+
+<body onload="run_app()">
+	<h1>Mobile App Inspector</h1><br>
+	<div id="id-drop-area">
+		<form class="drag-n-drop-form">
+			<p>Upload a file with the file dialog or by dragging and dropping onto the dashed region</p>
+			<input type="file" id="id-file" onchange="handleFile(this.files)">
+			<label class="button" for="id-file">Select a file</label>
+		</form>
+	</div>
+</body>
+
+</html>
