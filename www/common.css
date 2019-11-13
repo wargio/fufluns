@@ -60,6 +60,10 @@ p {
 	color: #ffcc66;
 }
 
+.log-notify {
+	color: white;
+}
+
 .log-info {
 	color: #66ff66;
 }

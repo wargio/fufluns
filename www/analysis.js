@@ -4,8 +4,12 @@ function run_app() {
 	setTimeout(updateLogs, 250);
 }
 
+
 function mapLogs(o) {
-	return "<span class=\"log-" + o.type + "\">[" + o.type.toUpperCase() + "] " + o.log + "</span>";
+	var timestamp = (new Date(o.timestamp * 1000)).toISOString().replace(/\.\d+/g, '');
+	var type = o.type.toUpperCase();
+	type += " ".repeat(7 - type.length)
+	return "<span class=\"log-" + o.type + "\">[" + timestamp + "] [" + type + "] " + o.log + "</span>";
 }
 
 function getLogs(elem) {
@@ -15,7 +19,7 @@ function getLogs(elem) {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var logs = JSON.parse(xhr.responseText);
 			if (logs.error) {
-				alert("Error: " + resp.error);
+				alert("Error: " + logs.error);
 			} else {
 				elem.innerHTML = logs.map(mapLogs).join("\n");
 				setTimeout(updateLogs, LOGS_TIMEOUT);

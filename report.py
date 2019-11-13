@@ -1,6 +1,7 @@
 import threading
 import shared as sh
 import json
+import time
 
 PERMISSION_NAME='Name'
 PERMISSION_DESC='Description'
@@ -84,17 +85,22 @@ class WebLogger(object):
 
 	def error(self, message):
 		self.lock.acquire()
-		self.logs.append({"type": "error", "log": message})
+		self.logs.append({"timestamp": time.time(), "log": message, "type": "error"})
 		self.lock.release()
 
 	def warning(self, message):
 		self.lock.acquire()
-		self.logs.append({"type": "warning", "log": message})
+		self.logs.append({"timestamp": time.time(), "log": message, "type": "warning"})
+		self.lock.release()
+
+	def notify(self, message):
+		self.lock.acquire()
+		self.logs.append({"timestamp": time.time(), "log": message, "type": "notify"})
 		self.lock.release()
 
 	def info(self, message):
 		self.lock.acquire()
-		self.logs.append({"type": "info", "log": message})
+		self.logs.append({"timestamp": time.time(), "log": message, "type": "info"})
 		self.lock.release()
 
 	def json(self):

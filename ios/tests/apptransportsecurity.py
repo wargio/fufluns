@@ -35,4 +35,4 @@ def run_tests(ipa, r2, u, r2h):
 			u.test(ipa, tls not in ['TLSv1.0', 'TLSv1.1'], "App Transport Security (ATS) sets minimum TLS version is {0} on {1}".format(tls, domain), "MISSING", 5)
 
 def name_test():
-	return "Detection App Transport Security (ATS) "
+	return "Detection App Transport Security (ATS)"
