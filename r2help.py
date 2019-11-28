@@ -9,7 +9,7 @@ def sanitize(v):
 
 def cmdj(r2, cmd):
 	v = sanitize(r2.cmd(cmd))
-	return json.loads(v)
+	return json.loads(v.replace('\\x', '\\u00'))
 
 def cmd(r2, cmd):
 	return sanitize(r2.cmd(cmd))

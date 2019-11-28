@@ -24,8 +24,12 @@ def run_tests(ipa, r2, u, r2h):
 
 	tmp = u.dk(plist, "LSApplicationQueriesSchemes", [])
 	found = []
-	for schema in queryschemas:
-		if schema in tmp:
+
+	if len(tmp) > 0:
+		ipa.logger.notify("Schema[s] found: {}".format('://,'.join(tmp) + '://'))
+
+	for schema in tmp:
+		if schema in queryschemas:
 			found.append(schema + "://")
 
 	message = "Jailbreak/Root check via canOpenURL is missing"

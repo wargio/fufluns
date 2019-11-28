@@ -6,12 +6,13 @@ html {
 }
 
 #id-drop-area {
-	border: 2px dashed #ccc;
-	border-radius: 20px;
+	border: 2px dashed #cccccc;
+	border-radius: 11px;
 	width: 480px;
 	font-family: sans-serif;
 	margin: 100px auto;
 	padding: 20px;
+	height: 300px;
 }
 
 #id-drop-area.highlight {
@@ -24,19 +25,42 @@ p {
 
 .drag-n-drop-form {
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .button {
-	display: inline-block;
-	padding: 10px;
-	background: #ccc;
+	border: none;
+	padding: 2px 50px;
+	text-decoration: none;
+	margin: 0px 2px;
 	cursor: pointer;
-	border-radius: 5px;
-	border: 1px solid #ccc;
 }
 
-.button:hover {
-	background: #ddd;
+.button-grey {
+	color: black;
+	background: #cccccc;
+}
+
+.button-grey:hover {
+	background: #dddddd;
+}
+
+.button-green {
+	color: white;
+	background: #4caf50;
+}
+
+.button-green:hover {
+	background: #83c985;
+}
+
+.button-red {
+	color: white;
+	background: #e43d24;
+}
+
+.button-red:hover {
+	background: #ee8777;
 }
 
 #id-file {
@@ -66,4 +90,8 @@ p {
 
 .log-info {
 	color: #66ff66;
+}
+
+.logs-btn-container {
+	padding: 10px 10px 0px 10px;
 }

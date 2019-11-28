@@ -163,8 +163,8 @@ apk_permissions = {
 	"com.google.android.c2dm.permission.RECEIVE": "Google Cloud Messaging permission required to receive messages from the cloud",
 }
 
-def run_tests(apk, r2, u, r2h):
-	manifest = os.path.join(apk.directory, "AndroidManifest.xml")
+def run_tests(apk, r2s, u, r2h):
+	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
 	root = ET.parse(manifest).getroot()
 	permissions = root.findall("uses-permission")
 

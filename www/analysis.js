@@ -1,7 +1,20 @@
 var LOGS_TIMEOUT = 1000
 
 function run_app() {
-	setTimeout(updateLogs, 250);
+	window.updateId = setTimeout(updateLogs, 250);
+	document.getElementById('id-btn-stop').onclick = function() {
+		var x = document.getElementById('id-btn-stop');
+		if (!x.value.toLowerCase().indexOf('stop')) {
+			x.value = 'Start Polling';
+			x.className = x.className.replace(/red/, 'green')
+			clearTimeout(window.updateId);
+			window.updateId = null;
+		} else {
+			x.value = 'Stop Polling';
+			x.className = x.className.replace(/green/, 'red')
+			window.updateId = setTimeout(updateLogs, LOGS_TIMEOUT);
+		}
+	}
 }
 
 
@@ -22,7 +35,7 @@ function getLogs(elem) {
 				alert("Error: " + logs.error);
 			} else {
 				elem.innerHTML = logs.map(mapLogs).join("\n");
-				setTimeout(updateLogs, LOGS_TIMEOUT);
+				window.updateId = setTimeout(updateLogs, LOGS_TIMEOUT);
 			}
 		} else if (xhr.readyState == 4 && xhr.status != 200) {
 			elem.textContent = e.responseText;
