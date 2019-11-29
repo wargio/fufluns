@@ -2,8 +2,8 @@ var LOGS_TIMEOUT = 1000
 
 function run_app() {
 	window.updateId = setTimeout(updateLogs, 250);
-	document.getElementById('id-btn-stop').onclick = function() {
-		var x = document.getElementById('id-btn-stop');
+	document.getElementById('id-btn-polling').onclick = function() {
+		var x = document.getElementById('id-btn-polling');
 		if (!x.value.toLowerCase().indexOf('stop')) {
 			x.value = 'Start Polling';
 			x.className = x.className.replace(/red/, 'green')
@@ -14,7 +14,10 @@ function run_app() {
 			x.className = x.className.replace(/green/, 'red')
 			window.updateId = setTimeout(updateLogs, LOGS_TIMEOUT);
 		}
-	}
+	};
+	document.getElementById('id-btn-back').onclick = function() {
+		window.location = "/";
+	};
 }
 
 

@@ -63,6 +63,10 @@ p {
 	background: #ee8777;
 }
 
+.button-right {
+	float: right;
+}
+
 #id-file {
 	display: none;
 }

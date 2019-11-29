@@ -47,7 +47,7 @@ def run_tests(apk, pipes, u, r2h):
 	found = []
 	idx = 1
 	for r2 in pipes:
-		apk.logger.notify("analyzing pipe {} of {}.".format(idx, len(pipes)))
+		##apk.logger.notify("analyzing pipe {} of {}.".format(idx, len(pipes)))
 		idx += 1
 		data = r2h.cmdj(r2, "izj")
 		for e in data:

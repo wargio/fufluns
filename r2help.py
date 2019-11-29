@@ -4,7 +4,7 @@ import base64
 
 def sanitize(v):
 	if isinstance(v, (bytes, bytearray)):
-		return v.decode('utf-8')
+		return v.decode('utf-8', errors="ignore")
 	return v
 
 def cmdj(r2, cmd):
@@ -31,10 +31,6 @@ def iterate_strings(r2, func, usr_data=None):
 	for e in data:
 		v = utils.dk(e, "string", "")
 		if len(v) > 0:
-			try:
-				v = sanitize(base64.b64decode(v))
-				x = func(v, usr_data)
-				if x is not None:
-					return
-			except Exception as e:
-				raise e
+			x = func(v, usr_data)
+			if x is not None:
+				return
