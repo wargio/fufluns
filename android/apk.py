@@ -57,10 +57,11 @@ def _apk_analysis(apk):
 	except Exception as ex:
 		raise ex
 		_cleanup(apk, ex)
+	apk.done.set(True)
 
 class Apk(object):
 	"""Apk class for analysis"""
-	def __init__(self, temp_filename):
+	def __init__(self, temp_filename, done):
 		super(Apk, self).__init__()
 		self.apktool   = tempfile.mkdtemp()
 		self.unzip     = tempfile.mkdtemp()
@@ -69,5 +70,7 @@ class Apk(object):
 		self.binary    = BinDetails()
 		self.permis    = Permissions()
 		self.issues    = Issues()
+		self.strings   = Strings()
+		self.done      = done
 		self.thread    = threading.Thread(target=_apk_analysis, args=(self,))
 		self.thread.start()

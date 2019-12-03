@@ -14,13 +14,15 @@ class ContextSecrets(object):
 		super(ContextSecrets, self).__init__()
 		self.apk   = apk
 		self.utils = utils
+		self.file  = ''
 		self.found = {}
 
-	def add(self, key, value):
+	def add(self, key, offset, value):
 		if key not in self.found:
 			self.found[key] = []
 		if value not in self.found[key]:
 			self.found[key].append(value)
+			self.apk.strings.add(self.file, 'Secret', offset, value)
 
 	def size(self, key):
 		return len(self.found)
@@ -33,19 +35,20 @@ class ContextSecrets(object):
 
 
 
-def find_secrets(string, ctx):
-	string = string.strip()
-	if "%s" not in string:
+def find_secrets(offset, string, ctx):
+	ustring = string.strip()
+	if "%s" not in ustring:
 		return None
 	for key in SECRETS_SIGNATURES:
 		prefix = SECRETS_SIGNATURES[key]
-		if prefix in string:
-			ctx.add(key, string)
+		if prefix in ustring:
+			ctx.add(key, offset, string)
 	return None
 
 def run_tests(apk, pipes, u, r2h):
 	ctx = ContextSecrets(apk, u)
 	for r2 in pipes:
+		ctx.file = r2h.filename(r2)
 		r2h.iterate_strings(r2, find_secrets, ctx)
 	ctx.add_tests()
 

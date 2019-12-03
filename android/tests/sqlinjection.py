@@ -6,11 +6,13 @@ class ContextSQL(object):
 		super(ContextSQL, self).__init__()
 		self.apk   = apk
 		self.utils = utils
+		self.file  = ''
 		self.found = []
 
-	def add(self, value):
+	def add(self, offset, value):
 		if value not in self.found:
 			self.found.append(value)
+			self.apk.strings.add(self.file, "SQLi", offset, value)
 
 	def size(self):
 		return len(self.found)
@@ -18,20 +20,20 @@ class ContextSQL(object):
 	def has_sqli(self):
 		return self.size() > 0
 
-
-def find_sql_injection(string, ctx):
-	string = string.strip().upper()
+def find_sql_injection(offset, string, ctx):
+	ustring = string.strip().upper()
 	## everything is uppercase, so we are looking for %s as %S
-	if "%S" not in string:
+	if "%S" not in ustring:
 		return None
 	for prefix in ["INSERT", "SELECT", "ALTER", "CREATE", "DROP"]:
-		if string.startswith(prefix):
-			ctx.add(string)
+		if ustring.startswith(prefix):
+			ctx.add(offset, string)
 	return None
 
 def run_tests(apk, pipes, u, r2h):
 	ctx = ContextSQL(apk, u)
 	for r2 in pipes:
+		ctx.file = r2h.filename(r2)
 		r2h.iterate_strings(r2, find_sql_injection, ctx)
 	u.test(apk, not ctx.has_sqli(), "Common SQL Injection (found {} sqli)".format(ctx.size()), DESCRIPTION, 8)
 

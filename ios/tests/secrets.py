@@ -10,17 +10,19 @@ SECRETS_SIGNATURES = {
 }
 
 class ContextSecrets(object):
-	def __init__(self, ipa, utils):
+	def __init__(self, ipa, utils, file):
 		super(ContextSecrets, self).__init__()
 		self.ipa   = ipa
 		self.utils = utils
+		self.file  = file
 		self.found = {}
 
-	def add(self, key, value):
+	def add(self, key, offset, value):
 		if key not in self.found:
 			self.found[key] = []
 		if value not in self.found[key]:
 			self.found[key].append(value)
+			self.ipa.strings.add(self.file, "Secret", offset, value)
 
 	def size(self, key):
 		return len(self.found)
@@ -32,18 +34,18 @@ class ContextSecrets(object):
 			self.ipa.logger.info("[OK] No secrets signatures found")
 
 
-def find_secrets(string, ctx):
-	string = string.strip()
-	if "%s" not in string:
+def find_secrets(offset, string, ctx):
+	ustring = string.strip()
+	if "%s" not in ustring:
 		return None
 	for key in SECRETS_SIGNATURES:
 		prefix = SECRETS_SIGNATURES[key]
-		if prefix in string:
-			ctx.add(key, string)
+		if prefix in ustring:
+			ctx.add(key, offset, string)
 	return None
 
 def run_tests(ipa, r2, u, r2h):
-	ctx = ContextSecrets(ipa, u)
+	ctx = ContextSecrets(ipa, u, r2h.filename(r2))
 	r2h.iterate_strings(r2, find_secrets, ctx)
 	ctx.add_tests()
 

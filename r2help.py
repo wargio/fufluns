@@ -1,6 +1,6 @@
 import json
 import utils
-import base64
+import os
 
 def sanitize(v):
 	if isinstance(v, (bytes, bytearray)):
@@ -30,7 +30,11 @@ def iterate_strings(r2, func, usr_data=None):
 	data = cmdj(r2, "izzj")
 	for e in data:
 		v = utils.dk(e, "string", "")
+		o = utils.dk(e, "paddr", 0)
 		if len(v) > 0:
-			x = func(v, usr_data)
+			x = func(o, v, usr_data)
 			if x is not None:
 				return
+
+def filename(r2):
+	return os.path.basename(utils.dk(cmdj(r2, 'ij'), "core.file", "(null)"))

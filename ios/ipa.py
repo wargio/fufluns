@@ -42,12 +42,12 @@ def _ipa_analysis(ipa):
 		except Exception as e:
 			_cleanup(ipa)
 			raise e
-
 	_cleanup(ipa)
+	ipa.done.set(True)
 
 class Ipa(object):
 	"""Ipa class for analysis"""
-	def __init__(self, temp_filename):
+	def __init__(self, temp_filename, done):
 		super(Ipa, self).__init__()
 		self.directory = tempfile.mkdtemp()
 		self.filename  = temp_filename
@@ -55,6 +55,8 @@ class Ipa(object):
 		self.binary    = BinDetails()
 		self.permis    = Permissions()
 		self.issues    = Issues()
+		self.strings   = Strings()
+		self.done      = done
 		self.thread    = threading.Thread(target=_ipa_analysis, args=(self,))
 		self.thread.start()
 

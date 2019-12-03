@@ -12,12 +12,12 @@ class ApiHandler(tornado.web.RequestHandler):
 		self.set_header('Content-Type', 'application/json')
 
 	def get(self, method):
-		if method == "logs":
+		if method == "report":
 			session = self.core.session()
 			if session is None:
 				self.write(json.dumps({"error": "Session not found."}))
 			else:
-				self.write(session.logs())
+				self.write(session.report())
 		else:
 			self.write(json.dumps({"error": "Method Not Allowed"}))
 
@@ -37,8 +37,12 @@ class ApiHandler(tornado.web.RequestHandler):
 def make_app(settings, core):
 	handlers = [
 		(r"/", tornado.web.RedirectHandler, {"url": "/ui/index.html"}),
+		(r"/ui", tornado.web.RedirectHandler, {"url": "/ui/index.html"}),
+		(r"/ui/", tornado.web.RedirectHandler, {"url": "/ui/index.html"}),
+		(r"/ui/(.*)", tornado.web.StaticFileHandler, {'path': WWW_FOLDER}),
+		(r"/api", tornado.web.RedirectHandler, {"url": "/api/"}),
 		(r"/api/(.*)", ApiHandler, core),
-		(r"/ui/(.*)", tornado.web.StaticFileHandler, {'path': WWW_FOLDER})
+		(r"/(.*)", tornado.web.RedirectHandler, {"url": "/ui/index.html"}),
 	]
 	return tornado.web.Application(handlers, **settings)
 

@@ -30,14 +30,16 @@ function mapLogs(o) {
 
 function getLogs(elem) {
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', '/api/logs', true);
+	xhr.open('GET', '/api/report', true);
 	xhr.addEventListener('readystatechange', function(e) {
 		if (xhr.readyState == 4 && xhr.status == 200) {
-			var logs = JSON.parse(xhr.responseText);
-			if (logs.error) {
-				alert("Error: " + logs.error);
+			var report = JSON.parse(xhr.responseText);
+			if (report.error) {
+				alert("Error: " + report.error);
+			} else if (report.done) {
+				window.location = "/ui/report.html";
 			} else {
-				elem.innerHTML = logs.map(mapLogs).join("\n");
+				elem.innerHTML = report.logs.map(mapLogs).join("\n");
 				window.updateId = setTimeout(updateLogs, LOGS_TIMEOUT);
 			}
 		} else if (xhr.readyState == 4 && xhr.status != 200) {

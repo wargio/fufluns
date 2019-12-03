@@ -1,34 +1,66 @@
 import threading
-import shared as sh
 import json
 import time
+from utils import dk
 
-PERMISSION_NAME='Name'
-PERMISSION_DESC='Description'
+PERMISSION_NAME='name'
+PERMISSION_DESC='description'
 
-ISSUE_TBL_NAME='Issue'
-ISSUE_TBL_DESC='Description'
-ISSUE_TBL_SEVR='Severity'
+ISSUE_TBL_NAME='issue'
+ISSUE_TBL_DESC='description'
+ISSUE_TBL_SEVR='severity'
+
+STRINGS_TBL_OFFSET='offset'
+STRINGS_TBL_DATA  ='data'
+STRINGS_TBL_TYPE  ='type'
+STRINGS_TBL_FILE  ='filename'
+
+BINDETAILS_DETAILS_LIBRARIES='libraries'
+BINDETAILS_DETAILS_CLASSES='classes'
+BINDETAILS_DETAILS_HASHES='hashes'
+
+def bin_methods(c):
+	return [dk(x, 'name', '(null)') for x in dk(c, 'methods', [])]
 
 class BinDetails(object):
 	"""Contains the details of the binary, like hashes, etc.."""
 	def __init__(self):
 		super(BinDetails, self).__init__()
-		self._details = sh.Shared(None)
-		self._hashes = sh.Shared(None)
+		self._details = {
+			BINDETAILS_DETAILS_LIBRARIES: [],
+			BINDETAILS_DETAILS_CLASSES: [],
+			BINDETAILS_DETAILS_HASHES: []
+		}
+		self.lock  = threading.Lock()
 
-	def detail(self, data):
-		self._details.set(data)
+	def libraries(self, data):
+		self.lock.acquire()
+		self._details[BINDETAILS_DETAILS_LIBRARIES].extend(data)
+		self.lock.release()
 
-	def hashes(self, data):
-		self._hashes.set(data)
+	def classes(self, filename, data):
+		self.lock.acquire()
+		dc = []
+		for c in data:
+			dc.append({
+				'filename': filename,
+				'name': dk(c, 'classname', "(null)"),
+				'super': dk(c, 'super'),
+				'address': dk(c, 'addr', 0),
+				'methods': bin_methods(c),
+			})
+		self._details[BINDETAILS_DETAILS_CLASSES].extend(dc)
+		self.lock.release()
+
+	def hashes(self, filename, data):
+		data['filename'] = filename
+		self.lock.acquire()
+		self._details[BINDETAILS_DETAILS_HASHES].append(data)
+		self.lock.release()
 
 	def json(self):
 		self.lock.acquire()
-		ret = json.dumps({
-			"details": self._details.get(),
-			"hashes": self._hashes.get()
-		})
+		ret = json.dumps(self._details)
 		self.lock.release()
 		return ret
 
@@ -73,6 +105,30 @@ class Issues(object):
 	def json(self):
 		self.lock.acquire()
 		ret = json.dumps(self.issues)
+		self.lock.release()
+		return ret
+
+class Strings(object):
+	"""Strings linked to the binary"""
+
+	def __init__(self):
+		super(Strings, self).__init__()
+		self.strings = []
+		self.lock  = threading.Lock()
+
+	def add(self, filename, stype, offset, string):
+		self.lock.acquire()
+		self.strings.append({
+			STRINGS_TBL_DATA:   string,
+			STRINGS_TBL_FILE:   filename,
+			STRINGS_TBL_TYPE:   stype,
+			STRINGS_TBL_OFFSET: offset,
+		})
+		self.lock.release()
+
+	def json(self):
+		self.lock.acquire()
+		ret = json.dumps(self.strings)
 		self.lock.release()
 		return ret
 
