@@ -35,7 +35,9 @@ class BinDetails(object):
 
 	def libraries(self, data):
 		self.lock.acquire()
-		self._details[BINDETAILS_DETAILS_LIBRARIES].extend(data)
+		old = self._details[BINDETAILS_DETAILS_LIBRARIES]
+		old.extend(data)
+		self._details[BINDETAILS_DETAILS_LIBRARIES] = sorted(set(old))
 		self.lock.release()
 
 	def classes(self, filename, data):

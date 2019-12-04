@@ -3,8 +3,17 @@ DESCRIPTION = "MISSING"
 STRINGS_SIGNATURES = [
 	':"',
 	': "',
-	'oauth',
-	'security',
+	' oauth',
+	' security',
+	'oauth ',
+	'security ',
+	'security_token',
+	'token',
+	'passw',
+	'proto',
+	'debugger',
+	'sha1',
+	'sha256',
 ]
 
 class ContextStrings(object):
@@ -30,9 +39,9 @@ class ContextStrings(object):
 			self.apk.logger.info("[OK] No interesting strings signatures found")
 
 def find_secrets(offset, string, ctx):
-	ustring = string.strip()
+	ustring = string.strip().upper()
 	for key in STRINGS_SIGNATURES:
-		if key in ustring:
+		if key.upper() in ustring:
 			ctx.add(offset, string)
 	return None
 

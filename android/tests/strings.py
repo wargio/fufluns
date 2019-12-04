@@ -1,12 +1,19 @@
 DESCRIPTION = "MISSING"
 
 STRINGS_SIGNATURES = [
-	': "',
 	':"',
+	': "',
 	' oauth',
 	' security',
 	'oauth ',
 	'security ',
+	'security_token',
+	'token',
+	'passw',
+	'proto',
+	'debugger',
+	'sha1',
+	'sha256',
 ]
 
 class ContextStrings(object):
