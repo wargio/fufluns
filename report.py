@@ -134,6 +134,24 @@ class Strings(object):
 		self.lock.release()
 		return ret
 
+class Extra(object):
+	"""Extra interesting stuff that can be added"""
+	def __init__(self):
+		super(Extra, self).__init__()
+		self.extra = {}
+		self.lock  = threading.Lock()
+
+	def add(self, key, string):
+		self.lock.acquire()
+		self.extra[key] = string
+		self.lock.release()
+
+	def json(self):
+		self.lock.acquire()
+		ret = json.dumps(self.extra)
+		self.lock.release()
+		return ret
+
 class WebLogger(object):
 	"""Class used to creat loggin features via web interface."""
 	def __init__(self):

@@ -40,7 +40,8 @@ function collapsable(parent, unique, classname, show) {
 		"var c = document.getElementById('" + container.id + "');" +
 		"c.style.display = (c.style.display == 'block' ? 'none' : 'block');" +
 		"var b = document.getElementById('" + button.id + "');" +
-		"b.textContent = (c.style.display == 'block' ? '[show]' : '[hide]');"
+		"b.textContent = (c.style.display == 'block' ? '[show]' : '[hide]');" +
+		"arguments[0].preventDefault();"
 	);
 	parent.appendChild(button);
 	parent.appendChild(container);
@@ -68,13 +69,25 @@ function addSection(title, newnode, data, collapsed) {
 	document.body.appendChild(pre);
 	if (collapsed && newnode) {
 		var c = collapsable(pre, 'main-section-' + title.toLowerCase(), 'block-collapse', false);
-		data.forEach(function(o) {
-			newnode(o, c);
-		});
+		if (Array.isArray(data)) {
+			data.forEach(function(o, i) {
+				newnode(o, c, i);
+			});
+		} else {
+			Object.keys(data).sort().forEach(function(key, i) {
+				newnode(key, data[key], c, i);
+			});
+		}
 	} else if (newnode) {
-		data.forEach(function(o) {
-			newnode(o, pre);
-		});
+		if (Array.isArray(data)) {
+			data.forEach(function(o, i) {
+				newnode(o, pre, i);
+			});
+		} else {
+			Object.keys(data).sort().forEach(function(key, i) {
+				newnode(key, data[key], pre, i);
+			});
+		}
 	}
 	return pre;
 }
@@ -136,6 +149,13 @@ function mapStrings(o, parent) {
 	parent.appendChild(ce("span", "log-notify", text + "\n"));
 }
 
+function mapExtra(k, o, parent, num) {
+	if (num > 0) parent.appendChild(document.createElement('br'));
+	parent.appendChild(ce("span", "log-notify", '- ' + k + " "));
+	var p = collapsable(parent, 'extra-' + num.toString(), 'block-collapse');
+	p.appendChild(ce("span", "log-notify", o));
+}
+
 function sort_by_severity(a, b) {
 	return b.severity - a.severity;
 }
@@ -154,7 +174,8 @@ function run_app() {
 			addSubSection(bin, "Libraries", mapBinLibs, report.binary.libraries);
 			addSection("Permissions", mapPerms, report.permissions);
 			addSection("Issues", mapIssues, report.issues.sort(sort_by_severity));
-			addSection("Strings (" + report.strings.length + ")", mapStrings, report.strings, report.strings.length > 100);
+			addSection("Strings (" + report.strings.length + ")", mapStrings, report.strings, true);
+			addSection("Extra (" + Object.keys(report.extra).length + ")", mapExtra, report.extra, true);
 			addSection("Logs", mapLog, report.logs);
 		}
 	});

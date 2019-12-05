@@ -1,3 +1,5 @@
+DESCRIPTION = "Insecure Standard C Library functions allows an attacker to exploit common buffer related vulnerabilities."
+SEVERITY    = 6.4
 
 insecure_std = [
 	'gets',
@@ -58,7 +60,7 @@ def run_tests(ipa, r2, u, r2h):
 	result = ""
 	if len(found) > 0:
 		result = " ({})".format(", ".join(found))
-	u.test(ipa, len(found) < 1, "Insecure Standard C Library functions imports" + result, "MISSING", 5)
+	u.test(ipa, len(found) < 1, "Insecure Standard C Library functions imports" + result, DESCRIPTION, SEVERITY)
 
 def name_test():
 	return "Detection Insecure Standard C Library"

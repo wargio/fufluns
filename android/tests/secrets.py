@@ -1,4 +1,5 @@
-DESCRIPTION = "MISSING"
+DESCRIPTION = "Easily discoverable of Private Key embedded inside the application"
+SEVERITY    = 8.4
 
 SECRETS_SIGNATURES = {
 	"RSA Private Key":     "-----BEGIN RSA PRIVATE KEY-----",
@@ -29,11 +30,9 @@ class ContextSecrets(object):
 
 	def add_tests(self):
 		for key in self.found:
-			self.utils.test(self.apk, False, "Found {} ({} hit[s])".format(key, self.size(key)), DESCRIPTION, 8)
+			self.utils.test(self.apk, False, "Found {} ({} hit[s])".format(key, self.size(key)), DESCRIPTION, SEVERITY)
 		if len(self.found) < 1:
 			self.apk.logger.info("[OK] No secrets signatures found")
-
-
 
 def find_secrets(offset, string, ctx):
 	ustring = string.strip()

@@ -1,9 +1,9 @@
-
-
-
 import glob
 import os
 import plistlib
+
+DESCRIPTION = "Applications on a jailbroken device run as root outside of the iOS sandbox. This can allow applications to access sensitive data contained in other apps or install malicious software that compromise the user data."
+SEVERITY    = 6.7
 
 queryschemas = {
 	'cydia',
@@ -36,7 +36,7 @@ def run_tests(ipa, r2, u, r2h):
 	if len(found) > 0:
 		message = "Jailbreak/Root check via canOpenURL found via schemas {}".format(", ".join(found))
 
-	u.test(ipa, len(found) > 0, message, "MISSING", 5)
+	u.test(ipa, len(found) > 0, message, DESCRIPTION, SEVERITY)
 
 def name_test():
 	return "Detection Jailbreak/Root"

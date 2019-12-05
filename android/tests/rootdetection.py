@@ -1,4 +1,5 @@
-import base64
+DESCRIPTION = "Applications on a 'rooted' device can run as root outside of the kernel sandbox. This can allow applications to access sensitive data contained in other apps or install malicious software that compromise the user data."
+SEVERITY    = 6.7
 
 ROOT_PACKAGES = [
 	"com.noshufou.android.su",
@@ -84,7 +85,7 @@ def run_tests(apk, pipes, u, r2h):
 	result = "not found"
 	if len(found) > 0:
 		result = "found ({})".format(", ".join(found))
-	u.test(apk, len(found) > 0, "Root detection " + result, "MISSING", 5)
+	u.test(apk, len(found) > 0, "Root detection " + result, DESCRIPTION, SEVERITY)
 
 def name_test():
 	return "Root detection"

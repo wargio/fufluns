@@ -1,5 +1,6 @@
 
 DESCRIPTION = "If attacker-supplied strings are concatenated to a SQL query, SQL injection on a sqlite database may occur. This might leak sensitive information from the database or inject malicious payloads."
+SEVERITY    = 8.4
 
 class ContextSQL(object):
 	def __init__(self, apk, utils):
@@ -35,7 +36,7 @@ def run_tests(apk, pipes, u, r2h):
 	for r2 in pipes:
 		ctx.file = r2h.filename(r2)
 		r2h.iterate_strings(r2, find_sql_injection, ctx)
-	u.test(apk, not ctx.has_sqli(), "Common SQL Injection (found {} sqli)".format(ctx.size()), DESCRIPTION, 8)
+	u.test(apk, not ctx.has_sqli(), "Common SQL Injection (found {} sqli)".format(ctx.size()), DESCRIPTION, SEVERITY)
 
 def name_test():
 	return "Detection SQL Injection"

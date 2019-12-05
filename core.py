@@ -30,6 +30,7 @@ class Session(object):
 				"permissions": json.loads(self._plugin.permis.json()),
 				"issues": json.loads(self._plugin.issues.json()),
 				"strings": json.loads(self._plugin.strings.json()),
+				"extra": json.loads(self._plugin.extra.json()),
 				"plugin": self._plugin_name.get(),
 				"filename": self._filename.get(),
 				"done": True
