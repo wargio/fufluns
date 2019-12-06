@@ -29,15 +29,16 @@ function mapLogs(o) {
 }
 
 function getLogs(elem) {
+	var session = window.location.hash.substr(1)
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', '/api/report', true);
+	xhr.open('GET', '/api/report/' + session, true);
 	xhr.addEventListener('readystatechange', function(e) {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var report = JSON.parse(xhr.responseText);
 			if (report.error) {
 				alert("Error: " + report.error);
 			} else if (report.done) {
-				window.location = "/ui/report.html";
+				window.location = "/ui/report.html" + window.location.hash;
 			} else {
 				elem.innerHTML = report.logs.map(mapLogs).join("\n");
 				window.updateId = setTimeout(updateLogs, LOGS_TIMEOUT);

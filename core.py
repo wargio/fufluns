@@ -2,6 +2,9 @@ import ios, android
 import tempfile
 import shared as sh
 import json
+import secrets
+import time
+import threading
 
 def create_temp(data, extension):
 	file = tempfile.NamedTemporaryFile(suffix=extension, delete=False)
@@ -10,7 +13,15 @@ def create_temp(data, extension):
 	file.close()
 	return fname
 
-class Session(object):
+class NoSession(object):
+	def __init__(self, ):
+		super(NoSession, self).__init__()
+		self._creation    = time.time()
+
+	def valid(self):
+		return False
+		
+class Session(NoSession):
 	"""Session status"""
 	ANDROID="Android Application"
 	IOS="iOS Application"
@@ -21,6 +32,9 @@ class Session(object):
 		self._filename    = sh.Shared(filename)
 		self._plugin_name = sh.Shared(plugin_name)
 		self._error       = sh.Shared(None)
+
+	def valid(self):
+		return True
 
 	def report(self):
 		if self._plugin.done.get():
@@ -45,22 +59,43 @@ class Session(object):
 
 	def error(self):
 		return self._error.get()
-		
+
+def zombie_handler(core):
+	seconds = 5 * 60
+	while True:
+		time.sleep(seconds)
+		core.clean()
 
 class Core(object):
 	"""Core of the application. here we merge all the functionalities."""
 	def __init__(self):
 		super(Core, self).__init__()
-		self._session = sh.Shared(None)
-	
-	def session(self):
-		return self._session.get()
+		self._session = sh.SharedMap()
+		self.thread   = threading.Thread(target=zombie_handler, args=(self,))
+		self.thread.start()
 
-	def new(self, filename, body):
+	def clean(self):
+		for key in self._session.keys():
+			session = self._session.get(key)
+			diff = time.time() - session._creation
+			if diff > 28800:
+				self._session.rem(key)
+
+	def newsession(self):
+		identifier = secrets.token_urlsafe(32)
+		self._session.set(identifier, NoSession())
+		return identifier
+	
+	def getsession(self, identifier):
+		return self._session.get(identifier)
+
+	def analyze(self, identifier, filename, body):
+		if not self._session.has(identifier):
+			return None
 		if filename.endswith(".apk"):
 			file = create_temp(body, ".apk")
-			self._session.set(Session(filename, android.Apk(file, sh.Shared(False)), Session.ANDROID))
+			self._session.set(identifier, Session(filename, android.Apk(file, sh.Shared(False)), Session.ANDROID))
 		elif filename.endswith(".ipa"):
 			file = create_temp(body, ".ipa")
-			self._session.set(Session(filename, ios.Ipa(file, sh.Shared(False)), Session.IOS))
-		return self._session.get()
+			self._session.set(identifier, Session(filename, ios.Ipa(file, sh.Shared(False)), Session.IOS))
+		return self._session.get(identifier)

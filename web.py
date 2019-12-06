@@ -12,24 +12,35 @@ class ApiHandler(tornado.web.RequestHandler):
 		self.set_header('Content-Type', 'application/json')
 
 	def get(self, method):
-		if method == "report":
-			session = self.core.session()
-			if session is None:
+		if method == "newsession":
+			self.write(json.dumps({"session": self.core.newsession()}))
+		elif method.startswith("report/"):
+			session_id = method[len("report/"):]
+			if len(session_id) < 32:
 				self.write(json.dumps({"error": "Session not found."}))
 			else:
-				self.write(session.report())
+				session = self.core.getsession(session_id)
+				if session is None:
+					self.write(json.dumps({"error": "Session not found."}))
+				else:
+					self.write(session.report())
 		else:
 			self.write(json.dumps({"error": "Method Not Allowed"}))
 
 	def post(self, method):
-		if method == "analyze":
-			for _, files in self.request.files.items():
-				for info in files:
-					session = self.core.new(info["filename"], info["body"])
-					if session is not None:
-						self.write(json.dumps({"error": None}))
-					else:
-						self.write(message=json.dumps({"error": "Invalid file extension."}))
+		if method.startswith("analyze/"):
+			session_id = method[len("analyze/"):]
+			if len(session_id) < 32:
+				self.write(json.dumps({"error": "Session not found."}))
+			else:
+				for _, files in self.request.files.items():
+					for info in files:
+						session = self.core.analyze(session_id, info["filename"], info["body"])
+						if session is not None:
+							self.write(json.dumps({"error": None}))
+						else:
+							self.write(message=json.dumps({"error": "Invalid file extension or session."}))
+						return
 		else:
 			self.write(json.dumps({"error": "Method Not Allowed"}))
 

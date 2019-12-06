@@ -1,3 +1,80 @@
+/* DEMANGLER */
+
+const JAVA_REGEX = /^L([a-zA-Z\d\/\$_\-]+)(([a-zA-Z\d\.<>\$]+)?(\(\)|\([\[a-zA-Z\d\/\$_\-;]+\))([\[a-zA-Z\d\/\$_\-;]+|[\[ZBSCIJFDV]))?$/;
+
+function java_demangler(array) {
+	const JAVA_NATIVE_TYPES = {
+		'Z': 'boolean',
+		'B': 'byte',
+		'S': 'short',
+		'C': 'char',
+		'I': 'int',
+		'J': 'long',
+		'F': 'float',
+		'D': 'double',
+		'V': 'void'
+	};
+
+	function demangle_class(x) {
+		x = x.replace(/\//g, '.');
+		var isArray = x.charAt(0) == '[';
+		return x.replace(/^\[?Ljava\.(lang|util)\.|^\[?L|;$/g, '') + (isArray ? '[]' : '');
+	}
+	var args = [];
+	var classname = array[1].replace(/\/|\$/g, '.');
+	var method = array[3];
+	if (!method) {
+		return classname;
+	}
+	method = method.replace(/\$/g, '.');
+	var cargs = array[4];
+	var returntype = array[5];
+	cargs = cargs.replace(/\(|\)/g, '')
+	cargs = cargs.replace(/([ZBSCIJFDV]+)?(\[?L[a-zA-Z\d\/\$_\-]+);/g, '$1;$2;');
+	cargs = cargs.replace(/;+/g, ';');
+	cargs = cargs.replace(/^;|;$/g, '');
+	cargs.split(';').forEach(function(x) {
+		if (x.match(/^[\[ZBSCIJFDV]+$/)) {
+			var isArray = false;
+			x.split('').forEach(function(x) {
+				if (returntype.charAt(0) == '[') {
+					isArray = true;
+					return;
+				}
+				args.push(JAVA_NATIVE_TYPES[x]) + (isArray ? '[]' : '');
+				isArray = false;
+			});
+		} else {
+			args.push(demangle_class(x));
+		}
+	});
+	if (returntype.match(/^[\[ZBSCIJFDV]+$/)) {
+		var isArray = returntype.charAt(0) == '[';
+		returntype = JAVA_NATIVE_TYPES[isArray ? returntype[1] : returntype] + (isArray ? '[]' : '');
+	} else {
+		returntype = demangle_class(returntype)
+	}
+	return returntype + ' ' + classname + method + "(" + args.join(', ') + ')';
+}
+
+function demangler(c) {
+	try {
+		var tmp = c.match(JAVA_REGEX);
+		if (tmp) {
+			return java_demangler(tmp);
+		}
+	} catch (e) {
+		console.log(e);
+	}
+	return c;
+}
+
+function asAddress(num) {
+	num = num.toString(16);
+	var max = num.length > 7 ? 16 : 8;
+	return '0x' + ('0'.repeat(max - num.length)) + num;
+}
+
 /* async XMLHttpRequest */
 function xhr(method, path, onsuccess, onfail) {
 	var o = new XMLHttpRequest();
@@ -38,9 +115,9 @@ function collapsable(parent, unique, classname, show) {
 	container.className = classname || '';
 	button.onclick = new Function(
 		"var c = document.getElementById('" + container.id + "');" +
-		"c.style.display = (c.style.display == 'block' ? 'none' : 'block');" +
 		"var b = document.getElementById('" + button.id + "');" +
 		"b.textContent = (c.style.display == 'block' ? '[show]' : '[hide]');" +
+		"c.style.display = (c.style.display == 'block' ? 'none' : 'block');" +
 		"arguments[0].preventDefault();"
 	);
 	parent.appendChild(button);
@@ -111,11 +188,13 @@ function mapBinHashes(o, parent, num) {
 
 function mapBinClasses(o, parent, num) {
 	if (num > 0) parent.appendChild(document.createElement('br'));
-	parent.appendChild(ce("span", "log-notify", '- ' + o.name + ' '));
-	var p = collapsable(parent, 'class-' + num.toString(), 'block-collapse');
-	o.methods.forEach(function(m) {
-		p.appendChild(ce("span", "log-notify", '  + ' + m + '\n'));
-	});
+	parent.appendChild(ce("span", "log-notify", '- ' + asAddress(o.address) + " " + demangler(o.name) + ' '));
+	if (o.methods.length > 0) {
+		var p = collapsable(parent, 'class-' + num.toString(), 'block-collapse');
+		o.methods.forEach(function(m) {
+			p.appendChild(ce("span", "log-notify", '  + ' + demangler(m) + '\n'));
+		});
+	}
 }
 
 function mapBinLibs(o, parent, num) {
@@ -141,8 +220,7 @@ function mapStrings(o, parent) {
 	var type = o.type.substr(0, max_type);
 	var filename = o.filename.substr(0, max_filename);
 	var offset = o.offset.toString(16);
-	var text = '0x';
-	text += ('0'.repeat(8 - offset.length)) + offset;
+	var text = asAddress(offset);
 	text += ' | ' + filename + (' '.repeat(max_filename - filename.length));
 	text += ' | ' + type + (' '.repeat(max_type - type.length));
 	text += ' | ' + o.data.replace(/\n/g, '\\n');
@@ -152,25 +230,38 @@ function mapStrings(o, parent) {
 function mapExtra(k, o, parent, num) {
 	if (num > 0) parent.appendChild(document.createElement('br'));
 	parent.appendChild(ce("span", "log-notify", '- ' + k + " "));
-	var p = collapsable(parent, 'extra-' + num.toString(), 'block-collapse');
-	p.appendChild(ce("span", "log-notify", o));
+	if (o.length > 0) {
+		var p = collapsable(parent, 'extra-' + num.toString(), 'block-collapse');
+		p.appendChild(ce("span", "log-notify", o));
+	}
 }
 
 function sort_by_severity(a, b) {
 	return b.severity - a.severity;
 }
 
+function sort_by_classname(a, b) {
+	if (a.name < b.name)
+		return -1;
+	if (a.name > b.name)
+		return 1;
+	return 0;
+}
+
 function run_app() {
 	document.getElementById('id-btn-back').onclick = function() {
 		window.location = "/";
 	};
-	xhr('GET', '/api/report', function(text) {
+	var session = window.location.hash.substr(1)
+	xhr('GET', '/api/report/' + session, function(text) {
 		var report = JSON.parse(text);
-		console.log(report);
-		if (report.done) {
+		if (report.error) {
+			alert("Error: " + report.error);
+		} else if (report.done) {
+			console.log(report);
 			var bin = addSection(report.plugin + " (" + report.filename + ")");
 			addSubSection(bin, "Hashes", mapBinHashes, report.binary.hashes);
-			addSubSection(bin, "Classes", mapBinClasses, report.binary.classes);
+			addSubSection(bin, "Classes", mapBinClasses, report.binary.classes.sort(sort_by_classname));
 			addSubSection(bin, "Libraries", mapBinLibs, report.binary.libraries);
 			addSection("Permissions", mapPerms, report.permissions);
 			addSection("Issues", mapIssues, report.issues.sort(sort_by_severity));
@@ -178,5 +269,7 @@ function run_app() {
 			addSection("Extra (" + Object.keys(report.extra).length + ")", mapExtra, report.extra, true);
 			addSection("Logs", mapLog, report.logs);
 		}
+	}, function(text) {
+		alert("Error:\n" + text);
 	});
 }

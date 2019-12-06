@@ -1,3 +1,17 @@
+/* async XMLHttpRequest */
+function xhr(method, path, data, onsuccess, onfail) {
+	var o = new XMLHttpRequest();
+	o.open(method, path, true);
+	o.addEventListener('readystatechange', function(e) {
+		if (o.readyState == 4 && o.status == 200) {
+			if (onsuccess) onsuccess(o.responseText);
+		} else if (o.readyState == 4 && o.status != 200) {
+			if (onfail) onfail(o.responseText);
+		}
+	});
+	o.send(data);
+}
+
 function run_app() {
 
 	['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -19,7 +33,7 @@ function handleDrop(e) {
 	var dt = e.dataTransfer
 	var files = dt.files
 
-	handleFiles(files);
+	handleFile(files);
 }
 
 function preventDefaults(e) {
@@ -36,33 +50,44 @@ function unhighlight(e) {
 }
 
 function handleFile(files) {
-	Array.from(files).forEach(uploadFile);
+	Array.from(files).forEach(getSession);
 }
 
-function uploadFile(file) {
-	var url = '/api/analyze';
-	var xhr = new XMLHttpRequest();
-	var formData = new FormData();
-	xhr.open('POST', url, true);
-
-	xhr.addEventListener('readystatechange', function(e) {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			try {
-				var resp = JSON.parse(xhr.responseText);
-				if (resp.error) {
-					alert("Error: " + resp.error);
-				} else {
-					alert("File uploaded.");
-					window.location.href = "/ui/analysis.html";
-				}
-			} catch(ee) {
-				alert("Exception.\n" + ee);
+function getSession(file) {
+	xhr('GET', '/api/newsession', null, function(text) {
+		try {
+			var resp = JSON.parse(text);
+			if (resp.error) {
+				alert("Error: " + resp.error);
+			} else if (!resp.session) {
+				alert("Error: invalid session received from the server");
+			} else {
+				uploadFile(resp.session, file);
 			}
-		} else if (xhr.readyState == 4 && xhr.status != 200) {
-			alert("Upload failed.\n" + e.responseText);
+		} catch (ee) {
+			alert("Exception in newsession.\n" + ee);
 		}
-	});
+	}, function(text) {
+		alert("Getting  new session failed.\n" + text);
+	})
+}
 
+function uploadFile(session, file) {
+	var formData = new FormData();
 	formData.append('file', file);
-	xhr.send(formData);
+	xhr('POST', '/api/analyze/' + session, formData, function(text) {
+		try {
+			var resp = JSON.parse(text);
+			if (resp.error) {
+				alert("Error: " + resp.error);
+			} else {
+				alert("File uploaded.");
+				window.location.href = "/ui/analysis.html#" + session;
+			}
+		} catch (ee) {
+			alert("Exception.\n" + ee);
+		}
+	}, function(text) {
+		alert("Upload failed.\n" + text);
+	});
 }
