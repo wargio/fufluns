@@ -7,7 +7,7 @@ SEVERITY    = 2
 def find_src(ipa, extension):
 	files = glob.glob(os.path.join(ipa.directory, "**", extension), recursive=True)
 	for file in files:
-		ipa.extra.add(file[len(ipa.directory):], "")
+		ipa.srccode.add(file[len(ipa.directory):])
 	return len(files)
 
 
@@ -26,8 +26,10 @@ def run_tests(ipa, r2, u, r2h):
 	nfiles += find_src(ipa, "*.pbxproj")
 	nfiles += find_src(ipa, "*.xcworkspacedata")
 
-	msg = "not found." if nfiles < 1 else "found ({} files).".format(nfiles)
-	u.test(ipa, nfiles > 0, "Source Code files {}".format(msg), DESCRIPTION, SEVERITY)
+	msg = "not found."
+	if nfiles > 0:
+		msg = "found ({} files).".format(nfiles)
+	u.test(ipa, nfiles < 1, "Source Code files {}".format(msg), DESCRIPTION, SEVERITY)
 
 
 def name_test():

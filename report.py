@@ -110,6 +110,26 @@ class Issues(object):
 		self.lock.release()
 		return ret
 
+class SourceCode(object):
+	"""SourceCode found in the binary"""
+
+	def __init__(self):
+		super(SourceCode, self).__init__()
+		self.files = []
+		self.lock  = threading.Lock()
+
+	def add(self, filename):
+		self.lock.acquire()
+		if filename not in self.files:
+			self.files.append(filename)
+		self.lock.release()
+
+	def json(self):
+		self.lock.acquire()
+		ret = json.dumps(self.files)
+		self.lock.release()
+		return ret
+
 class Strings(object):
 	"""Strings linked to the binary"""
 

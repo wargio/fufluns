@@ -33,7 +33,7 @@ def find_strings(offset, string, ctx):
 	ustring = string.strip()
 	for key in PINNING_SIGNATURES:
 		key += "/"
-		if key in ustring and ustring.indexof(key) < 3 and len(ustring) > (len(key) + 3):
+		if key in ustring and ustring.index(key) < 3 and len(ustring) > (len(key) + 3):
 			ctx.add(offset, string)
 			break
 	return None
@@ -59,7 +59,9 @@ def run_tests(apk, pipes, u, r2h):
 				if size < ctx.size():
 					break
 
-	msg = "not found." if ctx.size() > 0 else "is available (found {} signatures).".format(ctx.size())
+	msg = "not found."
+	if ctx.size() > 0:
+		msg = "is available (found {} signatures).".format(ctx.size())
 	u.test(apk, ctx.size() > 0, "SSL Pinning {}".format(msg), DESCRIPTION, SEVERITY)
 
 def name_test():

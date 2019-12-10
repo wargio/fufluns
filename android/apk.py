@@ -72,6 +72,7 @@ class Apk(object):
 		self.issues    = Issues()
 		self.strings   = Strings()
 		self.extra     = Extra()
+		self.srccode   = SourceCode()
 		self.done      = done
 		self.thread    = threading.Thread(target=_apk_analysis, args=(self,))
 		self.thread.start()

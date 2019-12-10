@@ -25,7 +25,7 @@ def find_sql_injection(offset, string, ctx):
 	ustring = string.strip().upper()
 	if "%@" not in ustring and "%S" not in ustring:
 		return None
-	for prefix in ["INSERT", "SELECT", "ALTER", "CREATE", "DROP"]:
+	for prefix in ["INSERT ", "SELECT ", "ALTER ", "CREATE ", "DROP "]:
 		if ustring.startswith(prefix):
 			ctx.add(offset, string.strip())
 	return None

@@ -32,9 +32,9 @@ def run_tests(ipa, r2, u, r2h):
 		if schema in queryschemas:
 			found.append(schema + "://")
 
-	message = "Jailbreak/Root check via canOpenURL is missing"
+	message = "Jailbreak/Root check is missing"
 	if len(found) > 0:
-		message = "Jailbreak/Root check via canOpenURL found via schemas {}".format(", ".join(found))
+		message = "Jailbreak/Root check found via schemas {}".format(", ".join(found))
 
 	u.test(ipa, len(found) > 0, message, DESCRIPTION, SEVERITY)
 

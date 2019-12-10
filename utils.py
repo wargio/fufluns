@@ -1,5 +1,4 @@
 def permission(o, name, description):
-	o.logger.info("[PERM] {} found".format(name))
 	o.permis.add(name, description)
 
 def test(o, b, detail, description, severity):

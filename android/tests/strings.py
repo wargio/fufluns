@@ -1,3 +1,5 @@
+import re
+
 STRINGS_SIGNATURES = [
 	':"',
 	': "',
@@ -13,6 +15,8 @@ STRINGS_SIGNATURES = [
 	'sha1',
 	'sha256',
 ]
+
+JAVA_REGEX = r'(L([a-zA-Z\d\/\$_\-]+)(([a-zA-Z\d\.<>\$]+)?(\(\)|\([\[a-zA-Z\d\/\$_\-;]+\))([\[a-zA-Z\d\/\$_\-;]+|[\[ZBSCIJFDV]))?)'
 
 class ContextStrings(object):
 	def __init__(self, apk, utils):
@@ -33,7 +37,7 @@ class ContextStrings(object):
 def find_strings(offset, string, ctx):
 	ustring = string.strip().upper()
 	for key in STRINGS_SIGNATURES:
-		if key.upper() in ustring:
+		if key.upper() in ustring and not (re.search(JAVA_REGEX, string)):
 			ctx.add(offset, string)
 	return None
 
