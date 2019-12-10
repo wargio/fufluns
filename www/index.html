@@ -10,12 +10,15 @@
 
 <body onload="run_app()">
 	<h1>Mobile App Inspector</h1><br>
-	<div id="id-drop-area">
-		<form class="drag-n-drop-form">
-			<p>Upload a file with the file dialog or by dragging and dropping onto the dashed region</p>
-			<input type="file" id="id-file" onchange="handleFile(this.files)" accept=".apk,.ipa">
-			<label class="button button-grey" for="id-file">Select a file</label>
-		</form>
+	<div class="logs-code logs-btn-container logs-complete-padding">
+		<input type="button" id="id-btn-diff" class="button button-blue" value='Diff Utility'/>
+		<div id="id-drop-area">
+			<form class="drag-n-drop-form">
+				<p>Upload a file with the file dialog or by dragging and dropping onto the dashed region</p>
+				<input type="file" id="id-file" onchange="handleFile(this.files)" accept=".apk,.ipa">
+				<label class="button button-grey" for="id-file">Select a file</label>
+			</form>
+		</div>
 	</div>
 </body>
 

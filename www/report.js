@@ -25,6 +25,31 @@ function sort_by_classname(a, b) {
 	return 0;
 }
 
+function JsonObject(filename) {
+	this._data = {};
+	this._filename = filename;
+	this.add = function(key, data) {
+		this._data[key] = data;
+	};
+	this.save = function() {
+		var now = (new Date()).getTime();
+		var fname = this._filename.replace(/\s/g, '_').replace(/\.[a-zA-Z]+$/, '.' + now + '.json');
+		var blob = new Blob([JSON.stringify(this._data, null, 4)], {
+			type: 'application/json'
+		});
+		if (window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveBlob(blob, fname);
+		} else {
+			var elem = window.document.createElement('a');
+			elem.href = window.URL.createObjectURL(blob);
+			elem.download = fname;
+			document.body.appendChild(elem);
+			elem.click();
+			document.body.removeChild(elem);
+		}
+	};
+}
+
 function create_markdown_report() {
 	if (!window.report) {
 		alert('Cannot get report data.');
@@ -63,6 +88,20 @@ function create_textile_report() {
 	m.save();
 }
 
+function create_json_export() {
+	if (!window.report) {
+		alert('Cannot get report data.');
+		return;
+	}
+	var m = new JsonObject(window.report.filename);
+	m.add('libraries', window.report.binary.libraries.sort());
+	m.add('permissions', window.report.permissions.sort(sort_by_classname));
+	m.add("issues", window.report.issues.sort(sort_by_severity));
+	m.add('extra', window.report.extra);
+	m.add("sourcecode", window.report.srccode.sort());
+	m.save();
+}
+
 function create_html_report() {
 	if (!window.report) {
 		alert('Cannot get report data.');
@@ -80,23 +119,30 @@ function create_html_report() {
 	addHtmlSection("Logs", mapHtmlLog, window.report.logs);
 }
 
+function attach_click(id, onclick) {
+	document.getElementById(id).onclick = onclick;
+	document.getElementById(id).style.display = 'none';
+}
+
 function run_app() {
 	document.getElementById('id-btn-back').onclick = function() {
 		window.location = "/";
 	};
-	document.getElementById('id-btn-markdown').onclick = create_markdown_report;
-	document.getElementById('id-btn-markdown').style.display = 'none';
-	document.getElementById('id-btn-textile').onclick = create_textile_report;
-	document.getElementById('id-btn-textile').style.display = 'none';
+	attach_click('id-btn-markdown', create_markdown_report);
+	attach_click('id-btn-textile', create_textile_report);
+	attach_click('id-btn-json', create_json_export);
+
+	create_json_export
 	var session = window.location.hash.substr(1)
 	xhr('GET', '/api/report/' + session, function(text) {
 		var report = JSON.parse(text);
 		if (report.error) {
 			alert("Error: " + report.error);
 		} else if (report.done) {
-			window.report = report
-			document.getElementById('id-btn-markdown').style.display = 'block';
-			document.getElementById('id-btn-textile').style.display = 'block';
+			window.report = report;
+			['id-btn-markdown', 'id-btn-textile', 'id-btn-json'].forEach(function(id) {
+				document.getElementById(id).style.display = 'block';
+			});
 			create_html_report();
 		}
 	}, function(text) {

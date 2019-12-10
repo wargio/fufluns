@@ -27,6 +27,10 @@ function run_app() {
 	});
 
 	document.getElementById('id-drop-area').addEventListener('drop', handleDrop, false);
+
+	document.getElementById('id-btn-diff').onclick = function() {
+		window.location = "/ui/diff.html";
+	};
 }
 
 function handleDrop(e) {
