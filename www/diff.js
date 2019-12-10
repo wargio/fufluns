@@ -66,7 +66,7 @@ function print_diff(name, method, parent, data1, data2) {
 	if (missing.removed.length > 0) {
 		parent.appendChild(_ce("span", "log-error", "- Removed:\n"));
 		missing.removed.forEach(function(x) {
-			parent.appendChild(_ce("span", "log-error", "  + " + JSON.stringify(x) + "\n"));
+			parent.appendChild(_ce("span", "log-error", "  - " + JSON.stringify(x) + "\n"));
 		});
 	}
 	if (missing.added.length > 0) {
@@ -78,7 +78,7 @@ function print_diff(name, method, parent, data1, data2) {
 	if (missing.common.length > 0) {
 		parent.appendChild(_ce("span", "log-debug", "- Common:\n"));
 		missing.common.forEach(function(x) {
-			parent.appendChild(_ce("span", "log-debug", "  + " + JSON.stringify(x) + "\n"));
+			parent.appendChild(_ce("span", "log-debug", "  = " + JSON.stringify(x) + "\n"));
 		});
 	}
 }
