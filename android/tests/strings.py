@@ -41,7 +41,7 @@ def find_strings(offset, string, ctx):
 			ctx.add(offset, string)
 	return None
 
-def run_tests(apk, pipes, u, r2h):
+def run_tests(apk, pipes, u, r2h, au):
 	ctx = ContextStrings(apk, u)
 	for r2 in pipes:
 		ctx.file = r2h.filename(r2)

@@ -10,13 +10,14 @@ import tempfile
 import threading
 import utils
 import zipfile
+import android.utils as au
 
-def _cleanup(o, e):
+def _cleanup(o, pipes):
 	os.remove(o.filename)
 	shutil.rmtree(o.apktool)
 	shutil.rmtree(o.unzip)
-	if e is not None:
-		o.logger.error("the analysis has crashed.")
+	for r2 in pipes:
+		r2.quit()
 	o.logger.notify("temp files removed, analysis terminated.")
 
 def extract_apk(o):
@@ -29,8 +30,8 @@ def extract_apk(o):
 		zip_ref.extractall(o.unzip)
 
 def _apk_analysis(apk):
+	pipes = []
 	try:
-		pipes = []
 		extract_apk(apk)
 
 		dexes = glob.glob(os.path.join(apk.unzip, "*.dex"))
@@ -43,7 +44,7 @@ def _apk_analysis(apk):
 			r2.filename = dex
 			pipes.append(r2)
 		if len(pipes) < 1:
-			_cleanup(apk, None)
+			_cleanup(apk, pipes)
 			return
 
 		for file in os.listdir(os.path.join(os.path.dirname(__file__), "tests")):
@@ -52,11 +53,11 @@ def _apk_analysis(apk):
 			modpath = 'android.tests.' + os.path.splitext(file)[0]
 			mod = importlib.import_module(modpath)
 			apk.logger.notify(mod.name_test())
-			mod.run_tests(apk, pipes, utils, r2help)
-		_cleanup(apk, None)
+			mod.run_tests(apk, pipes, utils, r2help, au)
 	except Exception as ex:
+		_cleanup(apk, pipes)
 		raise ex
-		_cleanup(apk, ex)
+	_cleanup(apk, pipes)
 	apk.done.set(True)
 
 class Apk(object):

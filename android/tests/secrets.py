@@ -44,7 +44,7 @@ def find_secrets(offset, string, ctx):
 			ctx.add(key, offset, string)
 	return None
 
-def run_tests(apk, pipes, u, r2h):
+def run_tests(apk, pipes, u, r2h, au):
 	ctx = ContextSecrets(apk, u)
 	for r2 in pipes:
 		ctx.file = r2h.filename(r2)

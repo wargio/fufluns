@@ -28,7 +28,7 @@ def filter_classes(classes):
 		classes = list(filter(lambda x: not x['classname'].startswith(skip), classes))
 	return classes
 
-def run_tests(o, pipes, u, r2h):
+def run_tests(o, pipes, u, r2h, au):
 	for r2 in pipes:
 		filename = fixname(o, r2h.filename(r2))
 		o.binary.hashes(filename, r2h.cmdj(r2, 'itj'))

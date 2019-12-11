@@ -11,7 +11,7 @@ def find_src(apk, extension):
 	return len(files)
 
 
-def run_tests(apk, r2, u, r2h):
+def run_tests(apk, r2, u, r2h, au):
 	## Java
 	nfiles = find_src(apk, "*.java")
 	## Kotlin

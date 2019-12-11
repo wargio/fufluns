@@ -44,7 +44,7 @@ ROOT_PROPERTIES = [
 ];
 
 
-def run_tests(apk, pipes, u, r2h):
+def run_tests(apk, pipes, u, r2h, au):
 	found = []
 	idx = 1
 	for r2 in pipes:

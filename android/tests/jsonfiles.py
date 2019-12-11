@@ -9,7 +9,7 @@ SKIP_FILES = [
 	'/Fonts/',
 ]
 
-def run_tests(apk, r2, u, r2h):
+def run_tests(apk, r2, u, r2h, au):
 	jsons = glob.glob(os.path.join(apk.unzip, "**", "*.json"), recursive=True)
 	for file in jsons:
 		skip_file = False

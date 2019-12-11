@@ -9,9 +9,11 @@ import threading
 import utils
 import zipfile
 
-def _cleanup(o):
+def _cleanup(o, r2):
 	os.remove(o.filename)
 	shutil.rmtree(o.directory)
+	if r2 is not None:
+		r2.quit()
 	o.logger.notify("temp files removed, analysis terminated.")
 
 
@@ -22,13 +24,13 @@ def _ipa_analysis(ipa):
 			zip_ref.extractall(ipa.directory)
 	except Exception:
 		ipa.logger.error("cannot unzip file.")
-		_cleanup(ipa)
+		_cleanup(ipa, None)
 		return
 
 	r2 = r2pipe.open("ipa://" + ipa.filename)
 	if r2 is None:
 		ipa.logger.error("cannot open file.")
-		_cleanup(ipa)
+		_cleanup(ipa, None)
 		return
 
 	for file in os.listdir(os.path.join(os.path.dirname(__file__), "tests")):
@@ -40,9 +42,9 @@ def _ipa_analysis(ipa):
 			ipa.logger.notify(mod.name_test())
 			mod.run_tests(ipa, r2, utils, r2help)
 		except Exception as e:
-			_cleanup(ipa)
+			_cleanup(ipa, r2)
 			raise e
-	_cleanup(ipa)
+	_cleanup(ipa, r2)
 	ipa.done.set(True)
 
 class Ipa(object):
