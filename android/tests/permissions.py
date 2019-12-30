@@ -1,6 +1,8 @@
 import os
 import xml.etree.ElementTree as ET
 
+## http://androidpermissions.com/permission/android.permission.USE_CREDENTIALS
+
 apk_permissions = {
 	"android.permission.ACCEPT_HANDOVER": "Allows a calling app to continue a call which was started in another app.",
 	"android.permission.ACCESS_BACKGROUND_LOCATION": "Allows an app to access location in the background.",
@@ -106,6 +108,7 @@ apk_permissions = {
 	"android.permission.READ_LOGS": "Allows an application to read the low-level system log files.",
 	"android.permission.READ_PHONE_NUMBERS": "Allows read access to the device's phone number(s).",
 	"android.permission.READ_PHONE_STATE": "Allows read only access to phone state, including the phone number of the device, current cellular network information, the status of any ongoing calls, and a list of any PhoneAccounts registered on the device.",
+	"android.permission.READ_PROFILE": "Allows the app to read personal profile information stored on your device, such as your name and contact information. This means the app can identify you and may send your profile information to others.",
 	"android.permission.READ_SMS": "Allows an application to read SMS messages.",
 	"android.permission.READ_SYNC_SETTINGS": "Allows applications to read the sync settings.",
 	"android.permission.READ_SYNC_STATS": "Allows applications to read the sync stats.",
@@ -145,6 +148,7 @@ apk_permissions = {
 	"android.permission.UNINSTALL_SHORTCUT": "",
 	"android.permission.UPDATE_DEVICE_STATS": "Allows an application to update device statistics.",
 	"android.permission.USE_BIOMETRIC": "Allows an app to use device supported biometric modalities.",
+	"android.permission.USE_CREDENTIALS": "Allows the app to request authentication tokens.",
 	"android.permission.USE_FINGERPRINT": "This constant was deprecated in API level 28. Applications should request USE_BIOMETRIC instead",
 	"android.permission.USE_FULL_SCREEN_INTENT": "Required for apps targeting Build.VERSION_CODES.Q that want to use notification full screen intents.",
 	"android.permission.USE_SIP": "Allows an application to use SIP service.",
@@ -163,26 +167,52 @@ apk_permissions = {
 	"com.google.android.c2dm.permission.RECEIVE": "Google Cloud Messaging permission required to receive messages from the cloud",
 }
 
+safe_protection_level = [
+	"normal",
+	"signature",
+	"signatureOrSystem",
+	"signature|privileged",
+]
+
+UNSAFE_PERM_ISSUE       = "Found user-based permissions with unsafe protection level in the AndroidManifest."
+UNSAFE_PERM_DESCRIPTION = "Creates a potential risk when the system is granting the permission to an application requesting it. "
+UNSAFE_PERM_SEVERITY    = 7.7
+
+def ga(d, k, default=None):
+	k = "{http://schemas.android.com/apk/res/android}" + k
+	if k in d.attrib:
+		return d.attrib[k]
+	return default
+
 def run_tests(apk, r2s, u, r2h, au):
+	insecure = []
 	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
 	root = ET.parse(manifest).getroot()
-	permissions = root.findall("uses-permission")
 
-	for perm in permissions:
-		for att in perm.attrib:
-			if att != "{http://schemas.android.com/apk/res/android}name":
-				continue
-			perm = perm.attrib[att]
+	permissions = root.findall("uses-permission")
+	for tag in permissions:
+		perm = ga(tag, "name", "")
+		if len(perm) > 0:
 			if perm in apk_permissions:
 				u.permission(apk, perm, apk_permissions[perm])
 			else:
 				u.permission(apk, perm, "unknown permission.")
+				plvl = ga(tag, "protectionLevel", "")
+				if len(plvl) > 0 and plvl not in safe_protection_level:
+					insecure.append(perm)
+			
 	permissions = root.findall("permission")
 	for perm in permissions:
 		for att in perm.attrib:
 			if att != "{http://schemas.android.com/apk/res/android}name":
 				continue
 			u.permission(apk, perm.attrib[att], "unknown permission.")
+			plvl = ga(tag, "protectionLevel", "")
+			if len(plvl) > 0 and plvl not in safe_protection_level:
+				insecure.append(perm)
+
+	if len(insecure) > 0:
+		u.test(apk, False, UNSAFE_PERM_ISSUE, UNSAFE_PERM_DESCRIPTION, UNSAFE_PERM_SEVERITY)
 
 def name_test():
 	return "Detection AndroidManifest.xml permissions"
