@@ -145,7 +145,7 @@ apk_permissions = {
 	"android.permission.STATUS_BAR": "Allows an application to open, close, or disable the status bar and its icons.",
 	"android.permission.SYSTEM_ALERT_WINDOW": "Allows an app to create windows using the type WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, shown on top of all other apps.",
 	"android.permission.TRANSMIT_IR": "Allows using the device's IR transmitter, if available.",
-	"android.permission.UNINSTALL_SHORTCUT": "",
+	"android.permission.UNINSTALL_SHORTCUT": "Allows an application to uninstall a shortcut in Launcher.",
 	"android.permission.UPDATE_DEVICE_STATS": "Allows an application to update device statistics.",
 	"android.permission.USE_BIOMETRIC": "Allows an app to use device supported biometric modalities.",
 	"android.permission.USE_CREDENTIALS": "Allows the app to request authentication tokens.",
@@ -202,14 +202,12 @@ def run_tests(apk, r2s, u, r2h, au):
 					insecure.append(perm)
 			
 	permissions = root.findall("permission")
-	for perm in permissions:
-		for att in perm.attrib:
-			if att != "{http://schemas.android.com/apk/res/android}name":
-				continue
-			u.permission(apk, perm.attrib[att], "unknown permission.")
-			plvl = ga(tag, "protectionLevel", "")
-			if len(plvl) > 0 and plvl not in safe_protection_level:
-				insecure.append(perm)
+	for tag in permissions:
+		perm = ga(tag, "name", "")
+		u.permission(apk, perm, "unknown permission.")
+		plvl = ga(tag, "protectionLevel", "")
+		if len(plvl) > 0 and plvl not in safe_protection_level:
+			insecure.append(tag)
 
 	if len(insecure) > 0:
 		u.test(apk, False, UNSAFE_PERM_ISSUE, UNSAFE_PERM_DESCRIPTION, UNSAFE_PERM_SEVERITY)

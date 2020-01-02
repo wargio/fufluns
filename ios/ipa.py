@@ -1,4 +1,10 @@
-from report import *
+from report import BinDetails
+from report import Permissions
+from report import Issues
+from report import SourceCode
+from report import Strings
+from report import Extra
+from report import WebLogger
 import importlib
 import os
 import r2help

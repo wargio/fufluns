@@ -43,7 +43,6 @@ ROOT_PROPERTIES = [
 	"ro.secure"
 ];
 
-
 def run_tests(apk, pipes, u, r2h, au):
 	found = []
 	idx = 1
