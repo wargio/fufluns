@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: archlinux/base:latest
+
+    steps:
+      - checkout
+      - run:
+          name: Pyflakes
+          command: pacman -Sy --noconfirm python-pyflakes ; pyflakes .
