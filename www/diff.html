@@ -4,30 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Fufluns - Mobile App Inspector</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="fonts.css">
     <link rel="stylesheet" type="text/css" href="common.css">
     <script type="text/javascript" src="diff.js"></script>
 </head>
 
 <body onload="run_app()">
-    <h1>JSON Export Differ</h1><br>
-    <div class="logs-code logs-btn-container logs-complete-padding">
-        <input type="button" id="id-btn-back" class="button button-grey" value='Go back' />
-        <input type="button" id="id-btn-diff" class="button button-green button-right" value='Diff the files' /><br />
-        <table class="diff-table" id="id-input-table">
-            <tr>
-                <td>Old File (json)</td>
-                <td></td>
-                <td>New File (json)</td>
-            </tr>
-            <tr>
-                <td><textarea id="id-text-1" class="diff-area"></textarea></td>
-                <td>&nbsp;</td>
-                <td><textarea id="id-text-2" class="diff-area"></textarea></td>
-            </tr>
-            </tr>
-        </table>
-        <pre class="logs-font no-padding no-margin" id="id-result"></pre>
-    </div>
+    <table class="navtable">
+        <tr>
+            <td class="topnav" colspan="2">
+                <div class="topnav-title-block">
+                    <table>
+                        <tr>
+                            <td><i class="material-icons icon-48">bug_report</i></td>
+                            <td>Fufluns<br><b>Mobile App Inspector</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td class="topnav-action"><div class="topnav-action-name">JSON Exporter Diffing Utility</div></td>
+        </tr>
+        <tr>
+            <td class="sidenav">
+                <div class="sidenav-menu">Actions</div>
+                <div class="sidenav-spacer"></div>
+                <input type="button" id="id-btn-back" class="button button-grey" value='Go back' />
+                <div class="sidenav-spacer"></div>
+                <input type="button" id="id-btn-diff" class="button button-green button-right" value='Diff the files' /><br />
+            </td>
+            <td class="main" colspan="2" style="vertical-align: top;">
+                <table class="diff-table" id="id-input-table">
+                    <tr>
+                        <td>Old File (json)</td>
+                        <td></td>
+                        <td>New File (json)</td>
+                    </tr>
+                    <tr>
+                        <td><textarea id="id-text-1" class="diff-area"></textarea></td>
+                        <td>&nbsp;</td>
+                        <td><textarea id="id-text-2" class="diff-area"></textarea></td>
+                    </tr>
+                    </tr>
+                </table>
+                <br>
+                <pre class="logs-font no-padding no-margin" id="id-result"></pre>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

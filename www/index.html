@@ -2,24 +2,46 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>Fufluns - Mobile App Inspector</title>
-	<link rel="stylesheet" type="text/css" href="common.css">
-	<script type="text/javascript" src="index.js"></script>
+    <meta charset="UTF-8">
+    <title>Fufluns - Mobile App Inspector</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="fonts.css">
+    <link rel="stylesheet" type="text/css" href="common.css">
+    <script type="text/javascript" src="index.js"></script>
 </head>
 
 <body onload="run_app()">
-	<h1>Mobile App Inspector</h1><br>
-	<div class="logs-code logs-btn-container logs-complete-padding">
-		<input type="button" id="id-btn-diff" class="button button-blue" value='Diff Utility'/>
-		<div id="id-drop-area">
-			<form class="drag-n-drop-form">
-				<p>Upload a file with the file dialog or by dragging and dropping onto the dashed region</p>
-				<input type="file" id="id-file" onchange="handleFile(this.files)" accept=".apk,.ipa">
-				<label class="button button-grey" for="id-file">Select a file</label>
-			</form>
-		</div>
-	</div>
+    <table class="navtable">
+        <tr>
+            <td class="topnav" colspan="2">
+                <div class="topnav-title-block">
+                    <table>
+                        <tr>
+                            <td><i class="material-icons icon-48">bug_report</i></td>
+                            <td>Fufluns<br><b>Mobile App Inspector</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="sidenav">
+                <div class="sidenav-menu">Utilities</div>
+                <div class="sidenav-spacer"></div>
+                <input type="button" id="id-btn-diff" class="button button-green" value='Diff Utility' />
+            </td>
+            <td class="main">
+                <div id="id-drop-area">
+                    <form class="drag-n-drop-form">
+                        <p>Upload a file with the file dialog or by dragging and dropping onto the dashed region</p><br>
+                        <i class="material-icons icon-120">vertical_align_bottom</i><br><br><br><br>
+                        <input type="file" id="id-file" onchange="handleFile(this.files)" accept=".apk,.ipa">
+                        <label class="button button-grey" for="id-file">Select a file</label>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

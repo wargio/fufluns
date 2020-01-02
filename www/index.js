@@ -85,7 +85,6 @@ function uploadFile(session, file) {
 			if (resp.error) {
 				alert("Error: " + resp.error);
 			} else {
-				alert("File uploaded.");
 				window.location.href = "/ui/analysis.html#" + session;
 			}
 		} catch (ee) {

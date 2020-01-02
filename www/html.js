@@ -52,10 +52,10 @@ function addHtmlSection(title, newnode, data, collapsed) {
 	if (size == 0) return;
 	var pre = _ce("pre", "logs-code");
 	if (newnode) {
-		document.body.appendChild(document.createElement('br'));
+		document.getElementById('main-app').appendChild(document.createElement('br'));
 	}
-	document.body.appendChild(_ce("div", "logs-code logs-btn-container", [_ce('span', "report-title", title)]));
-	document.body.appendChild(pre);
+	document.getElementById('main-app').appendChild(_ce("div", "logs-code logs-btn-container", [_ce('span', "report-title", title)]));
+	document.getElementById('main-app').appendChild(pre);
 	if (collapsed && newnode) {
 		var c = _collapsable(pre, 'main-section-' + title.toLowerCase(), 'block-collapse', false);
 		if (Array.isArray(data)) {
