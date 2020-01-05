@@ -12,7 +12,9 @@ class ApiHandler(tornado.web.RequestHandler):
 		self.set_header('Content-Type', 'application/json')
 
 	def get(self, method):
-		if method == "newsession":
+		if method == "version":
+			self.write(json.dumps(self.core.version()))
+		elif method == "newsession":
 			self.write(json.dumps({"session": self.core.newsession()}))
 		elif method.startswith("report/"):
 			session_id = method[len("report/"):]

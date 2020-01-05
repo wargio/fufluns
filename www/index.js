@@ -26,6 +26,8 @@ function run_app() {
 		document.getElementById('id-drop-area').addEventListener(eventName, unhighlight, false);
 	});
 
+	getVersion();
+
 	document.getElementById('id-drop-area').addEventListener('drop', handleDrop, false);
 
 	document.getElementById('id-btn-diff').onclick = function() {
@@ -57,6 +59,29 @@ function handleFile(files) {
 	Array.from(files).forEach(getSession);
 }
 
+function setVersion(data) {
+	document.getElementById("id-version").textContent = Object.keys(data).sort().map(function(key) {
+		return key + ": " + data[key].replace(/\n+/g, ' ');
+	}).join(', ');
+}
+
+function getVersion() {
+	xhr('GET', '/api/version', null, function(text) {
+		try {
+			var resp = JSON.parse(text);
+			if (resp.error) {
+				alert("Error: " + resp.error);
+			} else {
+				setVersion(resp);
+			}
+		} catch (ee) {
+			alert("Exception in version.\n" + ee);
+		}
+	}, function(text) {
+		alert("Getting version failed.\n" + text);
+	})
+}
+
 function getSession(file) {
 	xhr('GET', '/api/newsession', null, function(text) {
 		try {
@@ -72,7 +97,7 @@ function getSession(file) {
 			alert("Exception in newsession.\n" + ee);
 		}
 	}, function(text) {
-		alert("Getting  new session failed.\n" + text);
+		alert("Getting new session failed.\n" + text);
 	})
 }
 

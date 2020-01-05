@@ -18,6 +18,40 @@ body table tr td {
 	border: 0px;
 }
 
+.version {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	color: white;
+	font-size: 12px;
+	text-align: right;
+}
+
+.version a {
+	color: #ff8080;
+	text-decoration: none;
+}
+
+.version a:link {
+	color: #ff8080;
+	text-decoration: none;
+}
+
+.version a:visited {
+	color: #ff8080;
+	text-decoration: none;
+}
+
+.version a:hover {
+	color: #ffb3b3;
+	text-decoration: none;
+}
+
+.version a:active {
+	color: #ff8080;
+	text-decoration: none;
+} 
+
 .icon-48 {
 	font-size: 48px;
 }

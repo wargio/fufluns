@@ -5,6 +5,7 @@ import json
 import secrets
 import time
 import threading
+import version as fv
 
 def create_temp(data, extension):
 	file = tempfile.NamedTemporaryFile(suffix=extension, delete=False)
@@ -100,3 +101,10 @@ class Core(object):
 			file = create_temp(body, ".ipa")
 			self._session.set(identifier, Session(filename, ios.Ipa(file, sh.Shared(False)), Session.IOS))
 		return self._session.get(identifier)
+
+	def version(self):
+		return {
+			"radare2": fv.radare2(),
+			"apkid":   fv.apkid(),
+			"apktool": fv.apktool(),
+		}
