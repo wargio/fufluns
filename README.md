@@ -44,6 +44,17 @@ To build a docker image just run
 docker build -t fufluns:latest .
 ```
 
+# Debug
+
+To debug http traffic, you need to define the environment variable 'DEBUG_MODE'.
+
+For example:
+
+```bash
+export DEBUG_MODE=1
+./fufluns.sh
+```
+
 # FAQ
 
 I cannot reach the container from the browser.

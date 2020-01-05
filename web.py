@@ -63,11 +63,11 @@ def make_app(settings, core):
 
 class Server():
 	"""Python http server"""
-	def __init__(self, core, listen=8080, proto="http"):
+	def __init__(self, core, listen=8080, proto="http", debug=False):
 		super(Server, self).__init__()
 		self.listen  = listen
 		self.proto = proto
-		self.app = make_app({'debug': True}, dict(core=core))
+		self.app = make_app({'debug': debug}, dict(core=core))
 
 	def run(self):
 		self.app.listen(self.listen)
