@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 STD_ISSUE       = "Insecure Standard C Library functions imports"
 STD_DESCRIPTION = "Insecure Standard C Library functions allows an attacker to exploit common buffer related vulnerabilities."
 STD_SEVERITY    = 6.4

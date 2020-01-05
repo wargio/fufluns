@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 FROM archlinux/base:latest
 
 RUN pacman -Syy --noconfirm python-pip wget tar unzip base-devel git

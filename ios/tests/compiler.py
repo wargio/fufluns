@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 DESC_STACK_GUARD = "Stack Protectors (via -fstack-protector-all) are one of the many countermeasures to the stack buffer overflows security vulnerabilities."
 SVRT_STACK_GUARD = 8.1
 LIST_STACK_GUARD = ["__stack_chk_guard", "_stack_chk_guard", "stack_chk_guard"]

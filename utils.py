@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 def permission(o, name, description):
 	o.permis.add(name, description)
 

@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 from report import BinDetails
 from report import Permissions
 from report import Issues

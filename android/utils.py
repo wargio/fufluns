@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 import xml.etree.ElementTree as ET
 import datetime
 import time

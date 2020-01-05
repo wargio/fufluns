@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 import os, json
 import tornado.ioloop
 import tornado.web

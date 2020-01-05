@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 import sys
 import web
 from core import Core

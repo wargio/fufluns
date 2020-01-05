@@ -1,3 +1,4 @@
+## fufluns - Copyright 2019 - deroad
 
 def run_tests(o, r2, u, r2h):
 	filename = r2h.filename(r2)

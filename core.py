@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 import ios, android
 import tempfile
 import shared as sh

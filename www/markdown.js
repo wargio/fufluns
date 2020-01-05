@@ -1,3 +1,4 @@
+/* fufluns - Copyright 2019 - deroad */
 function Markdown(filename) {
 	this._data = [];
 	this._filename = filename;

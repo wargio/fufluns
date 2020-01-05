@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 DESCRIPTION = "Easily discoverable of Private Key embedded inside the application"
 SEVERITY    = 8.4
 

@@ -1,3 +1,4 @@
+## fufluns - Copyright 2019 - deroad
 
 DESCRIPTION = "If attacker-supplied strings are concatenated to a SQL query, SQL injection on a sqlite database may occur. This might leak sensitive information from the database or inject malicious payloads."
 SEVERITY    = 8.4

@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 import threading
 
 class Shared(object):

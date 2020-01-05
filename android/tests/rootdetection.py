@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 DESCRIPTION = "Applications on a 'rooted' device can run as root outside of the kernel sandbox. This can allow applications to access sensitive data contained in other apps or install malicious software that compromise the user data."
 SEVERITY    = 6.7
 

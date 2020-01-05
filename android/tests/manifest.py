@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 import os
 
 def run_tests(apk, r2s, u, r2h, au):

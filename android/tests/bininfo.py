@@ -1,3 +1,5 @@
+## fufluns - Copyright 2019 - deroad
+
 SKIP_CLASSES = [
 	'Landroid/',
 	'Landroidx/',
