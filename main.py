@@ -18,7 +18,7 @@ def main(argc, argv):
 			print("usage:  {} <port>".format(argv[0]))
 			sys.exit(0)
 		port = int(argv[1])
-	server = web.Server(core, port, debug)
+	server = web.Server(core, port, debug=debug)
 	try:
 		server.run()
 	except KeyboardInterrupt:
