@@ -1,12 +1,16 @@
 ## fufluns - Copyright 2019 - deroad
 
+MALLOC_ISSUE       = "Usage of malloc may result in undefined behaviour."
+MALLOC_DESCRIPTION = "The usage of malloc may generate undefined behaviour since the allocated buffer is not initialized."
+MALLOC_SEVERITY    = 2.0
+
 STD_ISSUE       = "Insecure Standard C Library functions imports"
 STD_DESCRIPTION = "Insecure Standard C Library functions allows an attacker to exploit common buffer related vulnerabilities."
 STD_SEVERITY    = 6.4
 
-MALLOC_ISSUE       = "Usage of malloc may result in undefined behaviour."
-MALLOC_DESCRIPTION = "The usage of malloc may generate undefined behaviour since the allocated buffer is not initialized."
-MALLOC_SEVERITY    = 2.0
+RANDOM_ISSUE       = "Usage of non CSPRNG results in predictable values which may be used in security-sensitive context"
+RANDOM_DESCRIPTION = "The usage of non cryptographically secure random number generators results in attacks that can derive functions able to reproduce the values of the PRNG."
+RANDOM_SEVERITY    = 4.8
 
 insecure_std = [
 	'gets',
@@ -57,22 +61,46 @@ insecure_std = [
 	'​realpath',
 ]
 
+insecure_random = [
+	"drand48",
+	"erand48",
+	"jrand48",
+	"lcong48",
+	"lrand48",
+	"mrand48",
+	"nrand48",
+	"rand",
+	"seed48",
+	"srand",
+	"srand48",
+]
+
 def run_tests(ipa, r2, u, r2h):
-	found = []
+	libc = []
+	random = []
 	malloc = False
 	data = r2h.cmdj(r2, "iij")
 	for e in data:
 		v = u.dk(e, "name", "")
 		if len(v) > 0:
 			if v in insecure_std:
-				found.append(v)
+				libc.append(v)
 			elif v == "malloc":
 				malloc = True
-	result = ""
-	if len(found) > 0:
-		result = " ({})".format(", ".join(found))
-	u.test(ipa, len(found) < 1, STD_ISSUE + result, STD_DESCRIPTION, STD_SEVERITY)
+			elif v in insecure_random:
+				random.append(v)
+
 	u.test(ipa, not malloc, MALLOC_ISSUE, MALLOC_DESCRIPTION, MALLOC_SEVERITY)
+
+	result = "."
+	if len(libc) > 0:
+		result = " ({}).".format(", ".join(libc))
+	u.test(ipa, len(libc) < 1, STD_ISSUE + result, STD_DESCRIPTION, STD_SEVERITY)
+
+	result = "."
+	if len(random) > 0:
+		result = " ({}).".format(", ".join(random))
+	u.test(ipa, len(random) < 1, RANDOM_ISSUE + result, RANDOM_DESCRIPTION, RANDOM_SEVERITY)
 
 
 def name_test():

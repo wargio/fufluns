@@ -35,8 +35,5 @@ def run_tests(apk, pipes, u, r2h, au):
 			text += pad_val + ("\n" + pad_val).join(file['matches'][key]) + "\n"
 	apk.extra.add("APKiD", text.strip())
 
-
-
-
 def name_test():
 	return "APKiD."
