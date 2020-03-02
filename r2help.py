@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 import json
 import utils
@@ -11,7 +11,7 @@ def sanitize(v):
 
 def cmdj(r2, cmd):
 	v = sanitize(r2.cmd(cmd))
-	return json.loads(v.replace('\\x', '\\u00'))
+	return json.loads(v.replace('\\x', '\\u00'), strict=False)
 
 def cmd(r2, cmd):
 	return sanitize(r2.cmd(cmd))

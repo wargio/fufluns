@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 import glob
 import os
@@ -73,6 +73,7 @@ def run_tests(apk, pipes, u, r2h, au):
 	nscfile = au.NetworkSecurityConfig.find(apk.apktool)
 	u.test(apk, nscfile is not None, NSC_ISSUE.format("was found" if nscfile is not None else "was not found"), NSC_DESCR, NSC_SEVER)
 	if nscfile is not None:
+		apk.extra.add_text_file(nscfile)
 		nsc = au.NetworkSecurityConfig(nscfile)
 		ctx.found.extend(nsc.pins())
 		ctx.found.extend(nsc.certificates())

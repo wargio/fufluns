@@ -1,4 +1,4 @@
-/* fufluns - Copyright 2019 - deroad */
+/* fufluns - Copyright 2019,2020 - deroad */
 /* create element */
 function _ce(type, classname, extra) {
 	var e = document.createElement(type);
@@ -95,7 +95,9 @@ function mapHtmlBinHashes(o, parent, num) {
 	parent.appendChild(_ce("span", "log-notify", '- ' + o.filename + ' \n'));
 	Object.keys(o).sort().forEach(function(k) {
 		if (k == 'filename') return;
-		parent.appendChild(_ce("span", "log-notify", '  + ' + k + ": " + " ".repeat(5 - k.length) + o[k].toUpperCase() + '\n'));
+		var rep = 5 - k.length;
+		if (rep < 0) rep = 0;
+		parent.appendChild(_ce("span", "log-notify", '  + ' + k + ": " + " ".repeat(rep) + o[k].toUpperCase() + '\n'));
 	});
 }
 

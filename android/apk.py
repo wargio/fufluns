@@ -1,4 +1,5 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
+
 from report import BinDetails
 from report import Permissions
 from report import Issues
@@ -19,12 +20,14 @@ import utils
 import zipfile
 import android.utils as au
 
-def _cleanup(o, pipes):
+def _cleanup(o, pipes, crashed):
 	os.remove(o.filename)
 	shutil.rmtree(o.apktool)
 	shutil.rmtree(o.unzip)
 	for r2 in pipes:
 		r2.quit()
+	if crashed:
+		o.logger.error(">> THE TOOL HAS CRASHED. CHECK THE LOGS <<")
 	o.logger.notify("temp files removed, analysis terminated.")
 
 def extract_apk(o):
@@ -51,7 +54,7 @@ def _apk_analysis(apk):
 			r2.filename = dex
 			pipes.append(r2)
 		if len(pipes) < 1:
-			_cleanup(apk, pipes)
+			_cleanup(apk, pipes, False)
 			return
 
 		for file in os.listdir(os.path.join(os.path.dirname(__file__), "tests")):
@@ -62,9 +65,9 @@ def _apk_analysis(apk):
 			apk.logger.notify(mod.name_test())
 			mod.run_tests(apk, pipes, utils, r2help, au)
 	except Exception as ex:
-		_cleanup(apk, pipes)
+		_cleanup(apk, pipes, True)
 		raise ex
-	_cleanup(apk, pipes)
+	_cleanup(apk, pipes, False)
 	apk.done.set(True)
 
 class Apk(object):

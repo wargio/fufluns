@@ -1,8 +1,9 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 import threading
 import json
 import time
+import os
 from utils import dk
 
 PERMISSION_NAME='name'
@@ -167,6 +168,11 @@ class Extra(object):
 		self.lock.acquire()
 		self.extra[key] = string
 		self.lock.release()
+
+	def add_text_file(self, filename):
+		basename = os.path.basename(filename)
+		with open(filename, "r") as fp:
+			self.add(basename, "".join(fp.readlines()))
 
 	def json(self):
 		self.lock.acquire()

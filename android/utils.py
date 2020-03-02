@@ -21,10 +21,14 @@ def _lm(f, l):
 
 class Domain(object):
 	"""Domain object"""
-	def __init__(self, node):
+	def __init__(self, node, subdomain=False):
 		super(Domain, self).__init__()
-		self.domainname = node.text
-		self.subdomain = _na(node, 'includeSubdomains', False)
+		if isinstance(node, str):
+			self.domainname = node
+			self.subdomain = subdomain
+		else:
+			self.domainname = node.text
+			self.subdomain = _na(node, 'includeSubdomains', subdomain)
 
 class Pins(object):
 	"""Pins object"""
@@ -77,6 +81,12 @@ class NetworkSecurityConfig(object):
 		self.base     = _domain_configs(root, "base-config")
 		self.debug    = _domain_configs(root, "debug-overrides")
 		self.configs  = _domain_configs(root, "domain-config")
+		for c in self.base:
+			if c.cleartext and len(c.domains) < 1:
+				c.domains.append(Domain("any"))
+		for c in self.debug:
+			if c.cleartext and len(c.domains) < 1:
+				c.domains.append(Domain("any"))
 
 	def certificates(self):
 		ce = []

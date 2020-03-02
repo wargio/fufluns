@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 from report import BinDetails
 from report import Permissions
@@ -17,11 +17,13 @@ import threading
 import utils
 import zipfile
 
-def _cleanup(o, r2):
+def _cleanup(o, r2, crashed):
 	os.remove(o.filename)
 	shutil.rmtree(o.directory)
 	if r2 is not None:
 		r2.quit()
+	if crashed:
+		o.logger.error(">> THE TOOL HAS CRASHED. CHECK THE LOGS <<")
 	o.logger.notify("temp files removed, analysis terminated.")
 
 
@@ -32,13 +34,13 @@ def _ipa_analysis(ipa):
 			zip_ref.extractall(ipa.directory)
 	except Exception:
 		ipa.logger.error("cannot unzip file.")
-		_cleanup(ipa, None)
+		_cleanup(ipa, None, False)
 		return
 
 	r2 = r2pipe.open("ipa://" + ipa.filename)
 	if r2 is None:
 		ipa.logger.error("cannot open file.")
-		_cleanup(ipa, None)
+		_cleanup(ipa, None, False)
 		return
 
 	for file in os.listdir(os.path.join(os.path.dirname(__file__), "tests")):
@@ -50,9 +52,9 @@ def _ipa_analysis(ipa):
 			ipa.logger.notify(mod.name_test())
 			mod.run_tests(ipa, r2, utils, r2help)
 		except Exception as e:
-			_cleanup(ipa, r2)
+			_cleanup(ipa, r2, True)
 			raise e
-	_cleanup(ipa, r2)
+	_cleanup(ipa, r2, False)
 	ipa.done.set(True)
 
 class Ipa(object):
