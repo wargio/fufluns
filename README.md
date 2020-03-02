@@ -1,6 +1,6 @@
 # Fufluns
 
-Easy to use APK/IPA security detector (experimental)
+Easy to use APK/IPA Mobile App Inspector (experimental)
 
 ## Features
 
@@ -51,8 +51,7 @@ To debug http traffic, you need to define the environment variable 'DEBUG_MODE'.
 For example:
 
 ```bash
-export DEBUG_MODE=1
-./fufluns.sh
+DEBUG_MODE=1 ./fufluns.sh
 ```
 
 # FAQ
