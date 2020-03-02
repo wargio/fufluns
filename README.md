@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/wargio/fufluns/tree/master.svg?style=svg)](https://circleci.com/gh/wargio/fufluns/tree/master)
+
 # Fufluns
 
 Easy to use APK/IPA Mobile App Inspector (experimental)
