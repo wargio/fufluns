@@ -55,6 +55,9 @@ For example:
 ```bash
 DEBUG_MODE=1 ./fufluns.sh
 ```
+# Development
+
+Check the documents here: https://github.com/wargio/fufluns/blob/master/DOCS.md
 
 # FAQ
 
