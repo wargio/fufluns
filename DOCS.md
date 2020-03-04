@@ -1,14 +1,3 @@
-apk.apktool   = tempfile.mkdtemp()
-apk.unzip     = tempfile.mkdtemp()
-apk.filename  = temp_filename
-apk.logger    = WebLogger()
-apk.binary    = BinDetails()
-apk.permis    = Permissions()
-apk.issues    = Issues()
-apk.strings   = Strings()
-apk.extra     = Extra()
-apk.srccode   = SourceCode()
-
 # Fufluns Internals
 
 The software is written in a way which allows you to add security tests as "plugins".
