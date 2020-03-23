@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/wargio/fufluns/tree/master.svg?style=svg)](https://circleci.com/gh/wargio/fufluns/tree/master)
+[![CircleCI](https://circleci.com/gh/wargio/fufluns/tree/master.svg?style=svg)](https://circleci.com/gh/wargio/fufluns/tree/master) ![Docker Builds](https://img.shields.io/docker/automated/deroad/fufluns) ![Docker Pulls](https://img.shields.io/docker/pulls/deroad/fufluns)
 
 # Fufluns
 
