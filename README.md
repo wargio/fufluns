@@ -40,6 +40,18 @@ The tool allows to export the data in JSON, Markdown and Textile formats.
 
 # Docker
 
+You can download it from docker hub or build it by yourself.
+
+## Download
+
+To download a prebuilt docker image:
+
+```bash
+docker pull deroad/fufluns:latest .
+```
+
+## Build
+
 To build a docker image just run
 
 ```bash
