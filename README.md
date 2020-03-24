@@ -42,20 +42,24 @@ The tool allows to export the data in JSON, Markdown and Textile formats.
 
 You can download it from docker hub or build it by yourself.
 
-## Download
-
-To download a prebuilt docker image:
+## Download from docker hub
 
 ```bash
+# Download first the image
 docker pull deroad/fufluns:latest .
+# run the image
+docker run -it --rm -p 8080:8080 deroad/fufluns:latest
 ```
 
-## Build
+## Or Build from sources
 
 To build a docker image just run
 
 ```bash
+# Build first the image
 docker build -t fufluns:latest .
+# Run the built image
+docker run -it --rm -p 8080:8080 fufluns:latest
 ```
 
 # Debug
@@ -70,11 +74,3 @@ DEBUG_MODE=1 ./fufluns.sh
 # Development
 
 Check the documents here: https://github.com/wargio/fufluns/blob/master/DOCS.md
-
-# FAQ
-
-I cannot reach the container from the browser.
-
-```bash
-docker run -it --rm -p 8080:8080 fufluns:latest
-```
