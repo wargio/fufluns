@@ -12,10 +12,12 @@ API_SEVERITY    = "severity"
 
 common_api_keys = {
 	"google_api_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Google API Key found", API_DESCRIPTION: "Google API Key" },
+	"google_maps_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Google Maps Key found", API_DESCRIPTION: "Google Maps Key" },
 	"google_crash_reporting_api_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Google Crash Report found", API_DESCRIPTION: "Google Crash Report API Key" },
 	"seed_crypto_keystore_password": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed Crypto Keystore Password found", API_DESCRIPTION: "Seed Crypto Keystore Password" },
 	"seed_crypto_privatekey_alias": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed Crypto Privatekey Alias found", API_DESCRIPTION: "Seed Crypto Privatekey Alias" },
 	"seed_crypto_privatekey_password": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed Crypto Privatekey Password found", API_DESCRIPTION: "Seed Crypto Privatekey Password" },
+	"zendesk_chat_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "ZenDesk Key found", API_DESCRIPTION: "ZenDesk Key" },
 }
 
 def is_base64(value):
@@ -30,6 +32,7 @@ def is_hex(value):
 def run_tests(apk, r2s, u, r2h, au):
 	file = os.path.join("res", "values", "strings.xml")
 	manifest = os.path.join(apk.apktool, file)
+	apk.extra.add_text_file(manifest)
 	root = ET.parse(manifest).getroot()
 	tags = root.findall("string")
 	for tag in tags:
