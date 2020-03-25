@@ -3,15 +3,31 @@
 import json
 import utils
 import os
+import re
 
 def sanitize(v):
 	if isinstance(v, (bytes, bytearray)):
 		return v.decode('utf-8', errors="ignore")
 	return v
 
+def encode_json(x):
+	x = json.dumps(x)
+	return x[1:][:-1]
+
+def needs_encoding(x):
+	return x > 31 and x < 128
+
+def sanitize_json(v):
+	v = sanitize(v).strip()
+	v = v.replace('\\x', '\\u00')
+	v = v.replace(', "', ',"')
+	v = ''.join([i if needs_encoding(ord(i)) else encode_json(i) for i in v])
+	v = re.sub(r'(([^\[\{:,\\])\"([^:,\]\}]))', '\\2\\"\\3', v)
+	return v
+
 def cmdj(r2, cmd):
-	v = sanitize(r2.cmd(cmd))
-	return json.loads(v.replace('\\x', '\\u00'), strict=False)
+	v = sanitize_json(r2.cmd(cmd))
+	return json.loads(v, strict=False)
 
 def cmd(r2, cmd):
 	return sanitize(r2.cmd(cmd))
