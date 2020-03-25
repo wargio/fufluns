@@ -15,7 +15,7 @@ def encode_json(x):
 	return x[1:][:-1]
 
 def needs_encoding(x):
-	return x > 31 and x < 128
+	return x > 31 and x < 127
 
 def sanitize_json(v):
 	v = sanitize(v).strip()
