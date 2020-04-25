@@ -55,7 +55,4 @@ def iterate_strings(r2, func, usr_data=None):
 				return
 
 def filename(r2):
-	p = cmd(r2, 'ij~{{core.file}}').strip()
-	if len(p) < 1:
-		p = '(null)'
-	return os.path.basename(p)
+	return os.path.basename(cmd(r2, 'ij~{core.file}'))
