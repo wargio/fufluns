@@ -67,6 +67,10 @@ def test_recursive(ipa, u, d, file):
 		elif "seed" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Seed in application resource."
 			descrip = "Easily discoverable of Seed ({}: {}) embedded inside {}".format(key, value, file)
+		elif "nonce" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
+			details = "Insecure storage of a generic Nonce in application resource."
+			descrip = "Easily discoverable of Nonce ({}: {}) embedded inside {}".format(key, value, file)
+
 		if len(descrip) > 0 and len(details) > 0:
 			u.test(ipa, False, details, descrip, severity)
 

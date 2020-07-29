@@ -51,7 +51,7 @@ def run_tests(apk, pipes, u, rzh, au):
 		elif ("api_key" in lkey or "apikey" in lkey) and " " not in value:
 			details = "Insecure storage of a generic API key in application resource."
 			descrip = "Easily discoverable of API key ({}: {}) embedded inside {}".format(key, value, file)
-		elif ("privatekey" in lkey or "private_key" in lkey) and " " not in value:
+		elif ("privatekey" in lkey or "private_key" in lkey or "secret" in lkey) and " " not in value:
 			details = "Insecure storage of a generic Private Key in application resource."
 			descrip = "Easily discoverable of Private Key ({}: {}) embedded inside {}".format(key, value, file)
 		elif "secret" in lkey and " " not in value:
@@ -69,6 +69,9 @@ def run_tests(apk, pipes, u, rzh, au):
 		elif "seed" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Seed in application resource."
 			descrip = "Easily discoverable of Seed ({}: {}) embedded inside {}".format(key, value, file)
+		elif "nonce" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
+			details = "Insecure storage of a generic Nonce in application resource."
+			descrip = "Easily discoverable of Nonce ({}: {}) embedded inside {}".format(key, value, file)
 
 		if len(descrip) > 0 and len(details) > 0:
 			u.test(apk, False, details, descrip, severity)
