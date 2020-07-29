@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2020 - deroad
 
 import glob
 import os
@@ -16,6 +16,9 @@ common_api_keys = {
 	"API_KEY": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "API Key found", API_DESCRIPTION: "Generic API Key" },
 	"Api_Key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "API Key found", API_DESCRIPTION: "Generic API Key" },
 	"api_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "API Key found", API_DESCRIPTION: "Generic API Key" },
+	"secret_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Secret Key found", API_DESCRIPTION: "Generic Secret Key" },
+	"private_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Private Key found", API_DESCRIPTION: "Generic Private Key" },
+	"privatekey": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Private Key found", API_DESCRIPTION: "Generic Private Key" },
 }
 
 def test(ipa, plist, u, key):
