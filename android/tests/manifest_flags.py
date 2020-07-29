@@ -38,9 +38,10 @@ def find_any(apk, u, root, keys, attval, keywords, issue, descr, severity):
 def run_tests(apk, pipes, u, rzh, au):
 	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
 	root = ET.parse(manifest).getroot()
-	find_any(apk, u, root, DEBUGGABLE_APP_KEYS, "debuggable" , TRUES, DEBUGGABLE_APP_ISSUE, DEBUGGABLE_APP_DESCRIPTION, DEBUGGABLE_APP_SEVERITY)
-	find_any(apk, u, root, EXPORT_RCV_KEYS    , "exported"   , TRUES, EXPORT_RCV_ISSUE    , EXPORT_RCV_DESCRIPTION    , EXPORT_RCV_SEVERITY    )
-	find_any(apk, u, root, BACKUP_APP_KEYS    , "allowBackup", TRUES, BACKUP_APP_ISSUE    , BACKUP_APP_DESCRIPTION    , BACKUP_APP_SEVERITY    )
+	find_any(apk, u, root, DEBUGGABLE_APP_KEYS, "debuggable"    , TRUES, DEBUGGABLE_APP_ISSUE, DEBUGGABLE_APP_DESCRIPTION, DEBUGGABLE_APP_SEVERITY)
+	find_any(apk, u, root, EXPORT_RCV_KEYS    , "exported"      , TRUES, EXPORT_RCV_ISSUE    , EXPORT_RCV_DESCRIPTION    , EXPORT_RCV_SEVERITY    )
+	find_any(apk, u, root, BACKUP_APP_KEYS    , "allowBackup"   , TRUES, BACKUP_APP_ISSUE    , BACKUP_APP_DESCRIPTION    , BACKUP_APP_SEVERITY    )
+	find_any(apk, u, root, BACKUP_APP_KEYS    , "fullBackupOnly", TRUES, BACKUP_APP_ISSUE    , BACKUP_APP_DESCRIPTION    , BACKUP_APP_SEVERITY    )
 
 def name_test():
 	return "Detection interesting tag flags in AndroidManifest.xml"
