@@ -26,7 +26,7 @@ RUN cd /tmp-build/radare2-master && sudo make install && cd - && rm -rf radare2-
 
 RUN wget -q https://aur.archlinux.org/cgit/aur.git/snapshot/android-apktool.tar.gz && chmod 666 *.tar.gz
 RUN su builduser -c 'cd /tmp-build && tar -xvf android-apktool.tar.gz && cd android-apktool && makepkg -s --noconfirm'
-RUN cd /tmp-build/android-apktool && pacman -U --noconfirm *.xz && cd - && rm -rf *.tar.gz android-apktool
+RUN cd /tmp-build/android-apktool && pacman -U --noconfirm *.zst && cd - && rm -rf *.tar.gz android-apktool
 
 RUN wget -q https://aur.archlinux.org/cgit/aur.git/snapshot/android-sdk-platform-tools.tar.gz && chmod 666 *.tar.gz
 RUN su builduser -c 'cd /tmp-build && tar -xvf android-sdk-platform-tools.tar.gz && cd android-sdk-platform-tools && makepkg -s --noconfirm'
