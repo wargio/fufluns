@@ -30,7 +30,7 @@ RUN cd /tmp-build/android-apktool && pacman -U --noconfirm *.zst && cd - && rm -
 
 RUN wget -q https://aur.archlinux.org/cgit/aur.git/snapshot/android-sdk-platform-tools.tar.gz && chmod 666 *.tar.gz
 RUN su builduser -c 'cd /tmp-build && tar -xvf android-sdk-platform-tools.tar.gz && cd android-sdk-platform-tools && makepkg -s --noconfirm'
-RUN cd /tmp-build/android-sdk-platform-tools && pacman -U --noconfirm *.xz && cd - && rm -rf *.tar.gz android-sdk-platform-tools
+RUN cd /tmp-build/android-sdk-platform-tools && pacman -U --noconfirm *.zst && cd - && rm -rf *.tar.gz android-sdk-platform-tools
 
 ## cleaning
 RUN userdel builduser && mv /etc/sudoers.back /etc/sudoers || sleep 0
