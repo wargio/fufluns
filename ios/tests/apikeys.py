@@ -36,5 +36,11 @@ def run_tests(ipa, r2, u, r2h):
 	for key in common_api_keys:
 		test(ipa, plist, u, key)
 
+	for key in plist:
+		if "_key" in key and key not in common_api_keys:
+			key = "secret_key"
+			desc = "Easily discoverable of {} embedded inside the application Info.plist".format(common_api_keys[key][API_DESCRIPTION])
+			u.test(ipa, False, common_api_keys[key][API_DETAILS], desc, common_api_keys[key][API_SEVERITY])
+
 def name_test():
 	return "Detection insecure API secrets values"
