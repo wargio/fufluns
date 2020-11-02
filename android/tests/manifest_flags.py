@@ -33,7 +33,7 @@ def find_any(apk, u, root, keys, attval, keywords, issue, descr, severity):
 				if value in keywords:
 					found += 1
 	if found > 0:
-		u.test(apk, False, DEBUGGABLE_APP_ISSUE, DEBUGGABLE_APP_DESCRIPTION, DEBUGGABLE_APP_SEVERITY)
+		u.test(apk, False, issue, descr, severity)
 
 def run_tests(apk, r2s, u, r2h, au):
 	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
