@@ -38,6 +38,11 @@ def run_tests(ipa, r2, u, r2h):
 	if len(tmp) > 0:
 		plist = plistlib.readPlist(tmp[0])
 
+	# check for TrustKit
+	if u.dk(plist, "TSKConfiguration") != None:
+		ipa.logger.notify("TrustKit was found, so App Transport Security config is ignored.")
+		return
+
 	tmp = u.dk(plist, "NSAppTransportSecurity.NSExceptionDomains", {})
 	for domain in tmp.keys():
 		domain_msg = domain
