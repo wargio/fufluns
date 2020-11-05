@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 import glob
 import os
