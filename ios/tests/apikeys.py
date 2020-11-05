@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019-2020 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 import glob
 import os
@@ -19,13 +19,41 @@ common_api_keys = {
 	"secret_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Secret Key found", API_DESCRIPTION: "Generic Secret Key" },
 	"private_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Private Key found", API_DESCRIPTION: "Generic Private Key" },
 	"privatekey": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Private Key found", API_DESCRIPTION: "Generic Private Key" },
+	"seed": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed found", API_DESCRIPTION: "Generic Seed" },
 }
+
+UNK_DETA_KEY  = "Secret Key ({})"
+UNK_DESC_KEY  = "Easily discoverable Secret Key ({}) embedded inside the application Info.plist"
+UNK_DETA_PKEY = "Private Key ({})"
+UNK_DESC_PKEY = "Easily discoverable Private Key ({}) embedded inside the application Info.plist"
+UNK_DETA_SEED = "Seed ({})"
+UNK_DESC_SEED = "Easily discoverable Seed ({}) embedded inside the application Info.plist"
 
 def test(ipa, plist, u, key):
 	x = u.dk(plist, key, "")
 	if len(x) > 0:
 		desc = "Easily discoverable {} embedded inside the application Info.plist".format(common_api_keys[key][API_DESCRIPTION])
-		u.test(ipa, False, common_api_keys[key][API_DETAILS], desc, common_api_keys[key][API_SEVERITY])
+		details = format(common_api_keys[key][API_DETAILS], key)
+		u.test(ipa, False, details, desc, common_api_keys[key][API_SEVERITY])
+
+def check_in(ipa, plist, u, keys):
+	prefix = ".".join(keys) + "." if len(keys) > 0 else ""
+	for key in plist:
+		value = plist[key]
+		if "publickey" in key.lower():
+			continue
+		elif "key" in key.lower() and key not in common_api_keys:
+			u.test(ipa, False, UNK_DETA_KEY.format(key), UNK_DESC_KEY.format(prefix + key), API_DEFAULT_SEVERITY)
+		elif "seed" in key.lower() and key not in common_api_keys:
+			u.test(ipa, False, UNK_DETA_SEED.format(key), UNK_DESC_SEED.format(prefix + key), API_DEFAULT_SEVERITY)
+		elif "privatekey" in key.lower() and key not in common_api_keys:
+			u.test(ipa, False, UNK_DETA_PKEY.format(key), UNK_DESC_PKEY.format(prefix + key), API_DEFAULT_SEVERITY)
+		elif "private_key" in key.lower() and key not in common_api_keys:
+			u.test(ipa, False, UNK_DETA_PKEY.format(key), UNK_DESC_PKEY.format(prefix + key), API_DEFAULT_SEVERITY)
+		elif isinstance(value, dict):
+			keys.append(key)
+			check_in(ipa, value, u, keys)
+			keys.pop()
 
 def run_tests(ipa, r2, u, r2h):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
@@ -36,10 +64,7 @@ def run_tests(ipa, r2, u, r2h):
 	for key in common_api_keys:
 		test(ipa, plist, u, key)
 
-	for key in plist:
-		if "key" in key.lower() and key not in common_api_keys:
-			desc = "Easily discoverable {} ({}) embedded inside the application Info.plist".format(common_api_keys["secret_key"][API_DESCRIPTION], key)
-			u.test(ipa, False, common_api_keys["secret_key"][API_DETAILS], desc, common_api_keys["secret_key"][API_SEVERITY])
+	check_in(ipa, plist, u, [])
 
 def name_test():
 	return "Detection insecure API secrets values"
