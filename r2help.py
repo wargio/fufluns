@@ -27,7 +27,7 @@ def sanitize_json(v):
 
 def cmdj(r2, cmd):
 	v = sanitize_json(r2.cmd(cmd))
-	return json.loads(v, strict=False)
+	return json.loads(v, strict=False, encoding='utf-8')
 
 def cmd(r2, cmd):
 	return sanitize(r2.cmd(cmd))

@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019,2020 - deroad
 
 def permission(o, name, description):
 	o.permis.add(name, description)
@@ -21,3 +21,6 @@ def dk(o, keys, default=None):
 	if o is not None:
 		return o
 	return default
+
+def not_serializable(o):
+	return '<not serializable: {}>'.format(type(o).__qualname__)
