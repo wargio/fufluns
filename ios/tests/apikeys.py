@@ -33,7 +33,7 @@ def test(ipa, plist, u, key, file):
 	x = u.dk(plist, key, "")
 	if len(x) > 0:
 		desc = "Easily discoverable {} embedded inside {}".format(common_api_keys[key][API_DESCRIPTION], file)
-		details = format(common_api_keys[key][API_DETAILS], key)
+		details = common_api_keys[key][API_DETAILS].format(key)
 		u.test(ipa, False, details, desc, common_api_keys[key][API_SEVERITY])
 
 def check_in(ipa, plist, u, keys, file):
