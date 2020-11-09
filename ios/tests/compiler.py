@@ -14,7 +14,7 @@ SVRT_PIE = 4
 
 def run_tests(ipa, pipe, u, rzh):
 	u.test(ipa, rzh.has_import(pipe, LIST_STACK_GUARD), "Stack smashing protection missing (-fstack-protector-all)", DESC_STACK_GUARD, SVRT_STACK_GUARD)
-	u.test(ipa, rzh.has_import(pipe, LIST_OBJC_ARC   ), "Objective-C automatic reference counting (-fobjc-arc)", DESC_OBJC_ARC, SVRT_OBJC_ARC)
+	u.test(ipa, rzh.has_import(pipe, LIST_OBJC_ARC   ), "Objective-C automatic reference counting is missing (-fobjc-arc)", DESC_OBJC_ARC, SVRT_OBJC_ARC)
 	u.test(ipa, rzh.has_info  (pipe, "pic"           ), "Full ASLR support is missing (-pie)", DESC_PIE, SVRT_PIE)
 
 def name_test():
