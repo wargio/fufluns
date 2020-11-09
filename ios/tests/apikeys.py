@@ -44,6 +44,8 @@ def check_in(ipa, plist, u, keys):
 			continue
 		elif "key" in key.lower() and key not in common_api_keys:
 			u.test(ipa, False, UNK_DETA_KEY.format(key), UNK_DESC_KEY.format(prefix + key), API_DEFAULT_SEVERITY)
+		elif "secret" in key.lower() and key not in common_api_keys:
+			u.test(ipa, False, UNK_DETA_KEY.format(key), UNK_DESC_KEY.format(prefix + key), API_DEFAULT_SEVERITY)
 		elif "seed" in key.lower() and key not in common_api_keys:
 			u.test(ipa, False, UNK_DETA_SEED.format(key), UNK_DESC_SEED.format(prefix + key), API_DEFAULT_SEVERITY)
 		elif "privatekey" in key.lower() and key not in common_api_keys:
