@@ -10,7 +10,9 @@ API_DETAILS     = "details"
 API_DESCRIPTION = "description"
 API_SEVERITY    = "severity"
 
-common_api_keys = {
+COMMON_DESC = "Easily discoverable {} ({}: {}) embedded inside {}"
+
+COMMON_API_KEYS = {
 	"Fabric.APIKey": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Fabric.io API Key found", API_DESCRIPTION: "Fabric.io Analytics API Key" },
 	"API_KEY_HUB": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "API Key Hub found", API_DESCRIPTION: "Generic API Key" },
 	"API_KEY": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "API Key found", API_DESCRIPTION: "Generic API Key" },
@@ -22,36 +24,33 @@ common_api_keys = {
 	"seed": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed found", API_DESCRIPTION: "Generic Seed" },
 }
 
-UNK_DETA_KEY  = "Secret Key ({})"
-UNK_DESC_KEY  = "Easily discoverable Secret Key ({}) embedded inside {}"
-UNK_DETA_PKEY = "Private Key ({})"
-UNK_DESC_PKEY = "Easily discoverable Private Key ({}) embedded inside {}"
-UNK_DETA_SEED = "Seed ({})"
-UNK_DESC_SEED = "Easily discoverable Seed ({}) embedded inside {}"
+UNK_DETA_KEY  = "Secret Key"
+UNK_DETA_PKEY = "Private Key"
+UNK_DETA_SEED = "Seed"
 
 def test(ipa, plist, u, key, file):
-	x = u.dk(plist, key, "")
-	if len(x) > 0:
-		desc = "Easily discoverable {} embedded inside {}".format(common_api_keys[key][API_DESCRIPTION], file)
-		details = common_api_keys[key][API_DETAILS].format(key)
-		u.test(ipa, False, details, desc, common_api_keys[key][API_SEVERITY])
+	value = u.dk(plist, key, "")
+	if len(value) > 0:
+		desc = COMMON_DESC.format(COMMON_API_KEYS[key][API_DESCRIPTION], key, value, file)
+		details = COMMON_API_KEYS[key][API_DETAILS]
+		u.test(ipa, False, details, desc, COMMON_API_KEYS[key][API_SEVERITY])
 
 def check_in(ipa, plist, u, keys, file):
 	prefix = ".".join(keys) + "." if len(keys) > 0 else ""
 	for key in plist:
 		value = plist[key]
-		if "publickey" in key.lower():
+		if "publickey" in key.lower() or (isinstance(value, str) and len(value.strip()) < 1):
 			continue
-		elif "key" in key.lower() and key not in common_api_keys:
-			u.test(ipa, False, UNK_DETA_KEY.format(key), UNK_DESC_KEY.format(prefix + key, file), API_DEFAULT_SEVERITY)
-		elif "secret" in key.lower() and key not in common_api_keys:
-			u.test(ipa, False, UNK_DETA_KEY.format(key), UNK_DESC_KEY.format(prefix + key, file), API_DEFAULT_SEVERITY)
-		elif "seed" in key.lower() and key not in common_api_keys:
-			u.test(ipa, False, UNK_DETA_SEED.format(key), UNK_DESC_SEED.format(prefix + key, file), API_DEFAULT_SEVERITY)
-		elif "privatekey" in key.lower() and key not in common_api_keys:
-			u.test(ipa, False, UNK_DETA_PKEY.format(key), UNK_DESC_PKEY.format(prefix + key, file), API_DEFAULT_SEVERITY)
-		elif "private_key" in key.lower() and key not in common_api_keys:
-			u.test(ipa, False, UNK_DETA_PKEY.format(key), UNK_DESC_PKEY.format(prefix + key, file), API_DEFAULT_SEVERITY)
+		elif "key" in key.lower() and key not in COMMON_API_KEYS:
+			u.test(ipa, False, UNK_DETA_KEY + " found", COMMON_DESC.format(UNK_DETA_KEY, prefix + key, value.strip(), file), API_DEFAULT_SEVERITY)
+		elif "secret" in key.lower() and key not in COMMON_API_KEYS:
+			u.test(ipa, False, UNK_DETA_KEY + " found", COMMON_DESC.format(UNK_DETA_KEY, prefix + key, value.strip(), file), API_DEFAULT_SEVERITY)
+		elif "seed" in key.lower() and key not in COMMON_API_KEYS:
+			u.test(ipa, False, UNK_DETA_SEED + " found", COMMON_DESC.format(UNK_DETA_SEED, prefix + key, value.strip(), file), API_DEFAULT_SEVERITY)
+		elif "privatekey" in key.lower() and key not in COMMON_API_KEYS:
+			u.test(ipa, False, UNK_DETA_PKEY + " found", COMMON_DESC.format(UNK_DETA_PKEY, prefix + key, value.strip(), file), API_DEFAULT_SEVERITY)
+		elif "private_key" in key.lower() and key not in COMMON_API_KEYS:
+			u.test(ipa, False, UNK_DETA_PKEY + " found", COMMON_DESC.format(UNK_DETA_PKEY, prefix + key, value.strip(), file), API_DEFAULT_SEVERITY)
 		elif isinstance(value, dict):
 			keys.append(key)
 			check_in(ipa, value, u, keys, file)
@@ -63,7 +62,7 @@ def run_tests(ipa, r2, u, r2h):
 	for tmp in plists:
 		plist = plistlib.readPlist(tmp)
 		file = tmp[len(ipa.directory):]
-		for key in common_api_keys:
+		for key in COMMON_API_KEYS:
 			test(ipa, plist, u, key, file)
 
 		check_in(ipa, plist, u, [], file)
