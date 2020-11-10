@@ -23,7 +23,6 @@ SKIP_FILES = [
 ]
 
 def can_skip(file):
-	print("'{}'".format(file))
 	for prefix in SKIP_FILES:
 		if file.startswith(prefix):
 			return True
