@@ -37,7 +37,16 @@ def test(ipa, plist, u, key, file):
 
 def check_in(ipa, plist, u, keys, file):
 	prefix = ".".join(keys) + "." if len(keys) > 0 else ""
+	index = -1
 	for key in plist:
+		index += 1
+		if isinstance(key, dict):
+			keys.append(str(index))
+			check_in(ipa, key, u, keys, file)
+			keys.pop()
+			continue
+		elif not isinstance(key, str):
+			continue
 		value = plist[key]
 		if "publickey" in key.lower() or (isinstance(value, str) and len(value.strip()) < 1):
 			continue
