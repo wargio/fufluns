@@ -4,12 +4,22 @@ import glob
 import os
 
 SKIP_FILES = [
-	'/res/anim'
+	'/res/anim',
 	'/res/color',
+	'/res/colour',
 	'/res/drawable',
+	'/res/font',
 	'/res/layout',
+	'/res/menu',
 	'/res/mipmap',
-	'/res/menu'
+	# langs usually are `/res/values-en` `/res/values-fr`..
+	'/res/values-',
+	# fullpaths
+	'/original/AndroidManifest.xml',
+	'/res/values/colors.xml',
+	'/res/values/dimens.xml',
+	'/res/values/drawables.xml',
+	'/res/values/styles.xml'
 ]
 
 def can_skip(file):
