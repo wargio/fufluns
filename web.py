@@ -70,6 +70,6 @@ class Server():
 		self.app = make_app({'debug': debug}, dict(core=core))
 
 	def run(self):
-		self.app.listen(self.listen)
+		self.app.listen(self.listen, max_buffer_size=1073741274) # 1GB max
 		print("Server available at {proto}://localhost:{port}".format(proto=self.proto, port=self.listen))
 		tornado.ioloop.IOLoop.instance().start()
