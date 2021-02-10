@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import ios, android
 import tempfile
@@ -106,7 +106,7 @@ class Core(object):
 
 	def version(self):
 		return {
-			"radare2": fv.radare2(),
+			"rizin":   fv.rizin(),
 			"apkid":   fv.apkid(),
 			"apktool": fv.apktool(),
 		}

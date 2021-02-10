@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019,2020 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import threading
 import json

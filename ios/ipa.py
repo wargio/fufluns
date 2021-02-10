@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019,2020 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 from report import BinDetails
 from report import Permissions
@@ -9,19 +9,19 @@ from report import Extra
 from report import WebLogger
 import importlib
 import os
-import r2help
-import r2pipe
+import rzhelp
+import rzpipe
 import shutil
 import tempfile
 import threading
 import utils
 import zipfile
 
-def _cleanup(o, r2, crashed):
+def _cleanup(o, pipe, crashed):
 	os.remove(o.filename)
 	shutil.rmtree(o.directory)
-	if r2 is not None:
-		r2.quit()
+	if pipe is not None:
+		pipe.quit()
 	if crashed:
 		o.logger.error(">> THE TOOL HAS CRASHED. CHECK THE LOGS <<")
 	o.logger.notify("temp files removed, analysis terminated.")
@@ -37,8 +37,8 @@ def _ipa_analysis(ipa):
 		_cleanup(ipa, None, False)
 		return
 
-	r2 = r2pipe.open("ipa://" + ipa.filename)
-	if r2 is None:
+	pipe = rzpipe.open("ipa://" + ipa.filename)
+	if pipe is None:
 		ipa.logger.error("cannot open file.")
 		_cleanup(ipa, None, False)
 		return
@@ -50,11 +50,11 @@ def _ipa_analysis(ipa):
 			modpath = 'ios.tests.' + os.path.splitext(file)[0]
 			mod = importlib.import_module(modpath)
 			ipa.logger.notify(mod.name_test())
-			mod.run_tests(ipa, r2, utils, r2help)
+			mod.run_tests(ipa, pipe, utils, rzhelp)
 		except Exception as e:
-			_cleanup(ipa, r2, True)
+			_cleanup(ipa, pipe, True)
 			raise e
-	_cleanup(ipa, r2, False)
+	_cleanup(ipa, pipe, False)
 	ipa.done.set(True)
 
 class Ipa(object):

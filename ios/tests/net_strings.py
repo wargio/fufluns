@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import re
 import tldhelper
@@ -71,9 +71,9 @@ def find_net(offset, string, ctx):
 
 	return None
 
-def run_tests(ipa, r2, u, r2h):
-	ctx = ContextNet(ipa, u, r2h.filename(r2))
-	r2h.iterate_strings(r2, find_net, ctx)
+def run_tests(ipa, pipe, u, rzh):
+	ctx = ContextNet(ipa, u, rzh.filename(pipe))
+	rzh.iterate_strings(pipe, find_net, ctx)
 	ctx.add_strings()
 
 def name_test():

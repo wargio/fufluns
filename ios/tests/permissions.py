@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -50,7 +50,7 @@ def has_permission(ipa, plist, u, permission, description):
 	if (isinstance(p, "".__class__) and len(p) > 0) or isinstance(p, bool):
 		u.permission(ipa, permission, description)
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:

@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 DESCRIPTION = "Applications on a 'rooted' device can run as root outside of the kernel sandbox. This can allow applications to access sensitive data contained in other apps or install malicious software that compromise the user data."
 SEVERITY    = 6.7
@@ -45,13 +45,13 @@ ROOT_PROPERTIES = [
 	"ro.secure"
 ];
 
-def run_tests(apk, pipes, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	found = []
 	idx = 1
-	for r2 in pipes:
+	for rz in pipes:
 		##apk.logger.notify("analyzing pipe {} of {}.".format(idx, len(pipes)))
 		idx += 1
-		data = r2h.cmdj(r2, "izj")
+		data = rzh.cmdj(rz, "izj")
 		for e in data:
 			skip = False
 			v = u.dk(e, "string", "").strip()

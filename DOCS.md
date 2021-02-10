@@ -10,8 +10,8 @@ Each test has to be placed in the appropriate folder:
 
 This is the template of a plugin for android
 ```py
-def run_tests(apk, pipes, utils, r2helper, android_utils):
-	for r2 in pipes:
+def run_tests(apk, pipes, utils, rzhelper, android_utils):
+	for rz in pipes:
         pass
 
 def name_test():
@@ -36,9 +36,9 @@ The `apk` python object contains the following data:
 
 This is the template of a plugin for android
 ```py
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
-def run_tests(ipa, r2, utils, r2helper):
+def run_tests(ipa, pipe, utils, rzhelper):
     pass
 
 def name_test():

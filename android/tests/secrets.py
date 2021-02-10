@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 DESCRIPTION = "Easily discoverable of Private Key embedded inside the application"
 SEVERITY    = 8.4
@@ -46,11 +46,11 @@ def find_secrets(offset, string, ctx):
 			ctx.add(key, offset, string)
 	return None
 
-def run_tests(apk, pipes, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	ctx = ContextSecrets(apk, u)
-	for r2 in pipes:
-		ctx.file = r2h.filename(r2)
-		r2h.iterate_strings(r2, find_secrets, ctx)
+	for rz in pipes:
+		ctx.file = rzh.filename(rz)
+		rzh.iterate_strings(rz, find_secrets, ctx)
 	ctx.add_tests()
 
 def name_test():

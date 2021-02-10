@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -11,7 +11,7 @@ SKIP_FILES = [
 	'/Fonts/',
 ]
 
-def run_tests(apk, r2, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	jsons = glob.glob(os.path.join(apk.unzip, "**", "*.json"), recursive=True)
 	for file in jsons:
 		skip_file = False

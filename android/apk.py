@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019,2020 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 from report import BinDetails
 from report import Permissions
@@ -10,8 +10,8 @@ from report import WebLogger
 import glob
 import importlib
 import os
-import r2help
-import r2pipe
+import rzhelp
+import rzpipe
 import shutil
 import subprocess
 import tempfile
@@ -24,8 +24,8 @@ def _cleanup(o, pipes, crashed):
 	os.remove(o.filename)
 	shutil.rmtree(o.apktool)
 	shutil.rmtree(o.unzip)
-	for r2 in pipes:
-		r2.quit()
+	for rz in pipes:
+		rz.quit()
 	if crashed:
 		o.logger.error(">> THE TOOL HAS CRASHED. CHECK THE LOGS <<")
 	o.logger.notify("temp files removed, analysis terminated.")
@@ -47,12 +47,12 @@ def _apk_analysis(apk):
 		dexes = glob.glob(os.path.join(apk.unzip, "*.dex"))
 		for dex in dexes:
 			apk.logger.notify("opening {}.".format(os.path.basename(dex)))
-			r2 = r2pipe.open(dex)
-			if r2 is None:
+			rz = rzpipe.open(dex)
+			if rz is None:
 				apk.logger.error("cannot open file {}.".format(os.path.basename(dex)))
 				continue
-			r2.filename = dex
-			pipes.append(r2)
+			rz.filename = dex
+			pipes.append(rz)
 		if len(pipes) < 1:
 			_cleanup(apk, pipes, False)
 			return
@@ -63,7 +63,7 @@ def _apk_analysis(apk):
 			modpath = 'android.tests.' + os.path.splitext(file)[0]
 			mod = importlib.import_module(modpath)
 			apk.logger.notify(mod.name_test())
-			mod.run_tests(apk, pipes, utils, r2help, au)
+			mod.run_tests(apk, pipes, utils, rzhelp, au)
 	except Exception as ex:
 		_cleanup(apk, pipes, True)
 		raise ex

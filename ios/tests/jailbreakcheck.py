@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -62,7 +62,7 @@ def has_permission(ipa, plist, u, permission, description):
 	if len(p) > 0:
 		u.permission(ipa, permission, description)
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:
@@ -79,7 +79,7 @@ def run_tests(ipa, r2, u, r2h):
 		if schema in queryschemas:
 			schema_found.append(schema + "://")
 
-	r2h.iterate_strings(r2, find_fs, filesystem_found)
+	rzh.iterate_strings(pipe, find_fs, filesystem_found)
 
 	message = "Jailbreak/Root check is missing"
 	if len(schema_found) and len(filesystem_found):

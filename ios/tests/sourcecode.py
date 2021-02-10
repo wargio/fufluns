@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -13,7 +13,7 @@ def find_src(ipa, extension):
 	return len(files)
 
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	## C/C++/Obj-C
 	nfiles = find_src(ipa, "*.m")
 	nfiles += find_src(ipa, "*.h")

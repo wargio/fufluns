@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 DESCRIPTION = "If attacker-supplied strings are concatenated to a SQL query, SQL injection on a sqlite database may occur. This might leak sensitive information from the database or inject malicious payloads."
 SEVERITY    = 8.4
@@ -31,9 +31,9 @@ def find_sql_injection(offset, string, ctx):
 			ctx.add(offset, string.strip())
 	return None
 
-def run_tests(ipa, r2, u, r2h):
-	ctx = ContextSQL(ipa, u, r2h.filename(r2))
-	r2h.iterate_strings(r2, find_sql_injection, ctx)
+def run_tests(ipa, pipe, u, rzh):
+	ctx = ContextSQL(ipa, u, rzh.filename(pipe))
+	rzh.iterate_strings(pipe, find_sql_injection, ctx)
 	u.test(ipa, not ctx.has_sqli(), "Common SQL Injection (found {} sqli)".format(ctx.size()), DESCRIPTION, SEVERITY)
 
 def name_test():

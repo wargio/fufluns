@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -13,7 +13,7 @@ def find_src(apk, extension):
 	return len(files)
 
 
-def run_tests(apk, r2, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	## Java
 	nfiles = find_src(apk, "*.java")
 	## Kotlin

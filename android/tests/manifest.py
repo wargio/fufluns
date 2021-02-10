@@ -1,8 +1,8 @@
-## fufluns - Copyright 2019,2020 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import os
 
-def run_tests(apk, r2s, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
 	apk.extra.add_text_file(manifest)
 	apk.logger.notify("AndroidManifest found.")

@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019,2020 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import json
 import utils
@@ -25,27 +25,27 @@ def sanitize_json(v):
 	v = re.sub(r'(([^\[\{:,\\])\"([^:,\]\}]))', '\\2\\"\\3', v)
 	return v
 
-def cmdj(r2, cmd):
-	v = sanitize_json(r2.cmd(cmd))
+def cmdj(pipe, cmd):
+	v = sanitize_json(pipe.cmd(cmd))
 	return json.loads(v, strict=False)
 
-def cmd(r2, cmd):
-	return sanitize(r2.cmd(cmd))
+def cmd(pipe, cmd):
+	return sanitize(pipe.cmd(cmd))
 
-def has_info(r2, key):
-	data = cmdj(r2, "iIj")
+def has_info(pipe, key):
+	data = cmdj(pipe, "iIj")
 	return utils.dk(data, key, False)
 
-def has_import(r2, values):
-	data = cmdj(r2, "iij")
+def has_import(pipe, values):
+	data = cmdj(pipe, "iij")
 	for e in data:
 		v = utils.dk(e, "name", "")
 		if len(v) > 0 and v in values:
 			return True
 	return False
 
-def iterate_strings(r2, func, usr_data=None):
-	data = cmdj(r2, "izzj")
+def iterate_strings(pipe, func, usr_data=None):
+	data = cmdj(pipe, "izzj")
 	for e in data:
 		v = utils.dk(e, "string", "")
 		o = utils.dk(e, "paddr", 0)
@@ -54,5 +54,5 @@ def iterate_strings(r2, func, usr_data=None):
 			if x is not None:
 				return
 
-def filename(r2):
-	return os.path.basename(utils.dk(cmdj(r2, 'ij'), "core.file", "(null)"))
+def filename(pipe):
+	return os.path.basename(utils.dk(cmdj(pipe, 'ij'), "core.file", "(null)"))

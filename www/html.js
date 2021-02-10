@@ -1,4 +1,4 @@
-/* fufluns - Copyright 2019,2020 - deroad */
+/* fufluns - Copyright 2019-2021 - deroad */
 /* create element */
 function _ce(type, classname, extra) {
 	var e = document.createElement(type);

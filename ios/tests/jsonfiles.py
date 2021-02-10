@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -11,7 +11,7 @@ SKIP_FILES = [
 	'/Fonts/',
 ]
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	jsons = glob.glob(os.path.join(ipa.directory, "**", "*.json"), recursive=True)
 	for file in jsons:
 		skip_file = False

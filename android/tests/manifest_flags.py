@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import os
 import xml.etree.ElementTree as ET
@@ -35,7 +35,7 @@ def find_any(apk, u, root, keys, attval, keywords, issue, descr, severity):
 	if found > 0:
 		u.test(apk, False, DEBUGGABLE_APP_ISSUE, DEBUGGABLE_APP_DESCRIPTION, DEBUGGABLE_APP_SEVERITY)
 
-def run_tests(apk, r2s, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
 	root = ET.parse(manifest).getroot()
 	find_any(apk, u, root, DEBUGGABLE_APP_KEYS, "debuggable" , TRUES, DEBUGGABLE_APP_ISSUE, DEBUGGABLE_APP_DESCRIPTION, DEBUGGABLE_APP_SEVERITY)

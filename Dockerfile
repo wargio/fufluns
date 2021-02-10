@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 FROM archlinux/base:latest
 
@@ -6,7 +6,7 @@ RUN pacman -Syy --noconfirm python-pip wget tar unzip base-devel git
 
 RUN mkdir -p /fufluns /tmp-build || sleep 0
 
-RUN pip install tornado r2pipe wheel apkid
+RUN pip install tornado rzpipe wheel apkid meson ninja
 
 WORKDIR /tmp-build
 
@@ -20,9 +20,9 @@ RUN pip wheel --wheel-dir=/tmp-build/yara-python --build-option="build" --build-
 
 RUN useradd builduser -m && passwd -d builduser && printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers
 
-RUN git clone --depth=1 https://github.com/radareorg/radare2 radare2-master && chown -R builduser:builduser radare2-master
-RUN su builduser -c 'cd /tmp-build/radare2-master && ./configure && make'
-RUN cd /tmp-build/radare2-master && sudo make install && cd - && rm -rf radare2-master
+RUN git clone --depth=1 https://github.com/rizinorg/rizin rizin-master && chown -R builduser:builduser rizin-master
+RUN su builduser -c 'cd /tmp-build/rizin-master && meson subprojects update && meson --reconfigure --prefix=/usr build && ninja -C build'
+RUN cd /tmp-build/rizin-master && sudo ninja -C build install && cd - && sudo rm -rf rizin-master
 
 RUN wget -q https://aur.archlinux.org/cgit/aur.git/snapshot/android-apktool.tar.gz && chmod 666 *.tar.gz
 RUN su builduser -c 'cd /tmp-build && tar -xvf android-apktool.tar.gz && cd android-apktool && makepkg -s --noconfirm'

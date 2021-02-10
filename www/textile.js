@@ -1,4 +1,4 @@
-/* fufluns - Copyright 2019 - deroad */
+/* fufluns - Copyright 2019-2021 - deroad */
 function Textile(filename) {
 	this._data = [];
 	this._filename = filename;

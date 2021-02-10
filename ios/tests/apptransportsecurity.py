@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -32,7 +32,7 @@ ISSU_ALLOWSLOCALNETWORKING = "App Transport Security (ATS) restrictions are disa
 DESC_ALLOWSLOCALNETWORKING = "The application has disabled all the security restrictions for all private/local connections."
 SVRT_ALLOWSLOCALNETWORKING = 8.2
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:

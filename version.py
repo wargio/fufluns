@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import subprocess
 import re
@@ -9,9 +9,9 @@ def _exec(cmd):
 	p.wait()
 	return stdout.decode('utf-8').strip()
 
-def radare2():
-	ver = _exec("radare2 -v")
-	find = re.findall(r'radare2 ([\d\.]+(-git)?)|([\da-fA-F]{40})', ver, re.M)
+def rizin():
+	ver = _exec("rizin -v")
+	find = re.findall(r'rizin ([\d\.]+(-git)?)|([\da-fA-F]{40})', ver, re.M)
 	return "{version} {commit}".format(version=find[0][0], commit=find[1][2])
 
 def apkid():

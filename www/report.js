@@ -1,4 +1,4 @@
-/* fufluns - Copyright 2019 - deroad */
+/* fufluns - Copyright 2019-2021 - deroad */
 /* async XMLHttpRequest */
 function xhr(method, path, onsuccess, onfail) {
 	var o = new XMLHttpRequest();

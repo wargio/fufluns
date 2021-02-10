@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import os
 import re
@@ -29,7 +29,7 @@ def is_uuid(value):
 def is_hex(value):
 	return re.match(r"^[0-9a-fA-F]+$", value) is not None
 
-def run_tests(apk, r2s, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	file = os.path.join("res", "values", "strings.xml")
 	manifest = os.path.join(apk.apktool, file)
 	apk.extra.add_text_file(manifest)

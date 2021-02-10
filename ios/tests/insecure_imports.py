@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 MALLOC_ISSUE       = "Usage of malloc may result in undefined behaviour."
 MALLOC_DESCRIPTION = "The usage of malloc may generate undefined behaviour since the allocated buffer is not initialized."
@@ -75,11 +75,11 @@ insecure_random = [
 	"srand48",
 ]
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	libc = []
 	random = []
 	malloc = False
-	data = r2h.cmdj(r2, "iij")
+	data = rzh.cmdj(pipe, "iij")
 	for e in data:
 		v = u.dk(e, "name", "")
 		if len(v) > 0:

@@ -1,11 +1,11 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
 import plistlib
 import json
 
-def run_tests(ipa, r2, u, r2h):
+def run_tests(ipa, pipe, u, rzh):
 	plists = glob.glob(os.path.join(ipa.directory, "**", "*.plist"), recursive=True)
 	for file in plists:
 		plist = plistlib.readPlist(file)

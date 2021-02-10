@@ -36,7 +36,7 @@ The tool allows to export the data in JSON, Markdown and Textile formats.
 
 - APKiD
 - Apktool (and the Android Platform Tools)
-- radare2 (python r2pipe)
+- rizin (python rzpipe)
 
 # Docker
 

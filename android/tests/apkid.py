@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import subprocess
 import json
@@ -13,7 +13,7 @@ def _apkid(file):
 		print(e)
 		return None
 
-def run_tests(apk, pipes, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	result = _apkid(apk.filename)
 	if result is None:
 		apk.logger.error("APKiD error: Check tool logs for more infos.")

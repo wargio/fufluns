@@ -1,4 +1,4 @@
-/* fufluns - Copyright 2019 - deroad */
+/* fufluns - Copyright 2019-2021 - deroad */
 /* DEMANGLER */
 
 const JAVA_REGEX = /^L([a-zA-Z\d\/\$_\-]+)(([a-zA-Z\d\.<>\$]+)?(\(\)|\([\[a-zA-Z\d\/\$_\-;]+\))([\[a-zA-Z\d\/\$_\-;]+|[\[ZBSCIJFDV]))?$/;

@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 STRINGS_SIGNATURES = [
 	':"',
@@ -39,9 +39,9 @@ def find_strings(offset, string, ctx):
 			ctx.add(offset, string)
 	return None
 
-def run_tests(ipa, r2, u, r2h):
-	ctx = ContextStrings(ipa, u, r2h.filename(r2))
-	r2h.iterate_strings(r2, find_strings, ctx)
+def run_tests(ipa, pipe, u, rzh):
+	ctx = ContextStrings(ipa, u, rzh.filename(pipe))
+	rzh.iterate_strings(pipe, find_strings, ctx)
 	if ctx.size() < 1:
 		ipa.logger.info("[OK] No interesting strings signatures found")
 

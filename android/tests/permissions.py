@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import os
 import xml.etree.ElementTree as ET
@@ -186,7 +186,7 @@ def ga(d, k, default=None):
 		return d.attrib[k]
 	return default
 
-def run_tests(apk, r2s, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	insecure = []
 	manifest = os.path.join(apk.apktool, "AndroidManifest.xml")
 	root = ET.parse(manifest).getroot()

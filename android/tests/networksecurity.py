@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019,2020 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 import glob
 import os
@@ -48,11 +48,11 @@ def find_strings(offset, string, ctx):
 			break
 	return None
 
-def run_tests(apk, pipes, u, r2h, au):
+def run_tests(apk, pipes, u, rzh, au):
 	ctx = ContextStrings(apk, u)
-	for r2 in pipes:
-		ctx.file = r2h.filename(r2)
-		r2h.iterate_strings(r2, find_strings, ctx)
+	for rz in pipes:
+		ctx.file = rzh.filename(rz)
+		rzh.iterate_strings(rz, find_strings, ctx)
 
 	files = glob.glob(os.path.join(apk.unzip, "**", "*.json"), recursive=True)
 	for file in files:

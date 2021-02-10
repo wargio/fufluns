@@ -1,4 +1,4 @@
-## fufluns - Copyright 2019 - deroad
+## fufluns - Copyright 2019-2021 - deroad
 
 SKIP_CLASSES = [
 	'Landroid/',
@@ -30,12 +30,12 @@ def filter_classes(classes):
 		classes = list(filter(lambda x: not x['classname'].startswith(skip), classes))
 	return classes
 
-def run_tests(o, pipes, u, r2h, au):
-	for r2 in pipes:
-		filename = fixname(o, r2h.filename(r2))
-		o.binary.hashes(filename, r2h.cmdj(r2, 'itj'))
-		o.binary.libraries(fixlibs(o, r2h.cmdj(r2, 'ilj')))
-		o.binary.classes(filename, filter_classes(r2h.cmdj(r2, 'icj')))
+def run_tests(o, pipes, u, rzh, au):
+	for rz in pipes:
+		filename = fixname(o, rzh.filename(rz))
+		o.binary.hashes(filename, rzh.cmdj(rz, 'itj'))
+		o.binary.libraries(fixlibs(o, rzh.cmdj(rz, 'ilj')))
+		o.binary.classes(filename, filter_classes(rzh.cmdj(rz, 'icj')))
 
 def name_test():
 	return "Hashes and binary details"
