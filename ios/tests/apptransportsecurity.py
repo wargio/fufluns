@@ -2,7 +2,6 @@
 
 import glob
 import os
-import plistlib
 
 SEVERITY="severity"
 DESCRIPTION="description"
@@ -36,7 +35,7 @@ def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:
-		plist = plistlib.readPlist(tmp[0])
+		plist = u.load_plist(tmp[0])
 
 	tmp = u.dk(plist, "NSAppTransportSecurity.NSExceptionDomains", {})
 	for domain in tmp.keys():

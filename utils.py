@@ -1,4 +1,5 @@
 ## fufluns - Copyright 2019-2021 - deroad
+import plistlib
 
 def permission(o, name, description):
 	o.permis.add(name, description)
@@ -21,3 +22,9 @@ def dk(o, keys, default=None):
 	if o is not None:
 		return o
 	return default
+
+def load_plist(file):
+	if hasattr(plistlib, 'readPlist'):
+		return plistlib.readPlist(file)
+	with open(file, 'rb') as f:
+		return plistlib.load(f)

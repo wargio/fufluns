@@ -2,7 +2,6 @@
 
 import glob
 import os
-import plistlib
 
 DESCRIPTION = "Applications on a jailbroken device run as root outside of the iOS sandbox. This can allow applications to access sensitive data contained in other apps or install malicious software that compromise the user data."
 SEVERITY    = 6.7
@@ -66,7 +65,7 @@ def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:
-		plist = plistlib.readPlist(tmp[0])
+		plist = u.load_plist(tmp[0])
 
 	tmp = u.dk(plist, "LSApplicationQueriesSchemes", [])
 	schema_found = []

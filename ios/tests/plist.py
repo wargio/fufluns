@@ -2,14 +2,13 @@
 
 import glob
 import os
-import plistlib
 import json
 
 def run_tests(ipa, pipe, u, rzh):
 	plists = glob.glob(os.path.join(ipa.directory, "**", "*.plist"), recursive=True)
 	for file in plists:
-		plist = plistlib.readPlist(file)
-		plist = json.dumps(plist, indent=4)
+		plist = u.load_plist(file)
+		plist = json.dumps(plist, indent=4, default=lambda o: '<not serializable>')
 		ipa.extra.add(file[len(ipa.directory):], plist)
 	ipa.logger.notify("Found {} plists.".format(len(plists)))
 

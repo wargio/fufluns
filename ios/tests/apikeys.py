@@ -2,7 +2,6 @@
 
 import glob
 import os
-import plistlib
 
 API_DEFAULT_SEVERITY = 6.5
 
@@ -28,7 +27,7 @@ def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:
-		plist = plistlib.readPlist(tmp[0])
+		plist = u.load_plist(tmp[0])
 
 	for key in common_api_keys:
 		test(ipa, plist, u, key)

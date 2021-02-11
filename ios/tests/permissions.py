@@ -2,7 +2,6 @@
 
 import glob
 import os
-import plistlib
 
 ios_permissions = {
 	"NSBluetoothAlwaysUsageDescription": "A message that tells the user why the app needs access to Bluetooth.",
@@ -54,7 +53,7 @@ def run_tests(ipa, pipe, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:
-		plist = plistlib.readPlist(tmp[0])
+		plist = u.load_plist(tmp[0])
 
 	for key in ios_permissions:
 		has_permission(ipa, plist, u, key, ios_permissions[key])
