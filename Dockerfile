@@ -2,11 +2,11 @@
 
 FROM archlinux/base:latest
 
-RUN pacman -Suuyy --noconfirm python-pip wget tar unzip base-devel git
+RUN pacman -Suuyy --noconfirm python-pip wget tar unzip base-devel git meson ninja
 
 RUN mkdir -p /fufluns /tmp-build || sleep 0
 
-RUN pip install tornado rzpipe wheel apkid meson ninja
+RUN pip install tornado rzpipe wheel apkid
 
 WORKDIR /tmp-build
 
@@ -21,7 +21,7 @@ RUN pip wheel --wheel-dir=/tmp-build/yara-python --build-option="build" --build-
 RUN useradd builduser -m && passwd -d builduser && printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers
 
 RUN git clone --depth=1 https://github.com/rizinorg/rizin rizin-master && chown -R builduser:builduser rizin-master
-RUN su builduser -c 'cd /tmp-build/rizin-master && meson subprojects update && meson --reconfigure --prefix=/usr build && ninja -C build'
+RUN su builduser -c 'cd /tmp-build/rizin-master && meson --prefix=/usr build && meson subprojects update && ninja -C build'
 RUN cd /tmp-build/rizin-master && sudo ninja -C build install && cd - && sudo rm -rf rizin-master
 
 RUN wget -q https://aur.archlinux.org/cgit/aur.git/snapshot/android-apktool.tar.gz && chmod 666 *.tar.gz
