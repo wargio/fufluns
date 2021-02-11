@@ -2,7 +2,7 @@
 
 FROM archlinux/base:latest
 
-RUN pacman -Syy --noconfirm python-pip wget tar unzip base-devel git
+RUN pacman -Suuyy --noconfirm python-pip wget tar unzip base-devel git
 
 RUN mkdir -p /fufluns /tmp-build || sleep 0
 

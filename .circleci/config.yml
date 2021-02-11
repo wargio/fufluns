@@ -8,4 +8,4 @@ jobs:
       - checkout
       - run:
           name: Pyflakes
-          command: pacman -Sy --noconfirm python-pyflakes ; pyflakes .
+          command: pacman -Suuyy --noconfirm python-pyflakes ; pyflakes .
