@@ -88,7 +88,7 @@ def run_tests(ipa, pipe, u, rzh):
 	elif len(filesystem_found) > 0:
 		message = "Jailbreak/Root check found via filesystem paths {}".format(", ".join(filesystem_found))
 
-	u.test(ipa, len(schema_found) > 0, message, DESCRIPTION, SEVERITY)
+	u.test(ipa, len(schema_found) > 0 or len(filesystem_found) > 0, message, DESCRIPTION, SEVERITY)
 
 def name_test():
 	return "Detection Jailbreak/Root"
