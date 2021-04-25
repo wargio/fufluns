@@ -2,6 +2,7 @@
 
 import subprocess
 import json
+import os.path
 
 def _apkid(file):
 	p = subprocess.Popen("apkid -j {}".format(file), stdout=subprocess.PIPE, stderr=None, shell=True)
@@ -12,6 +13,11 @@ def _apkid(file):
 	except Exception as e:
 		print(e)
 		return None
+
+def _clean_name(fname):
+	if "!" in fname:
+		return fname.split('!')[1]
+	return os.path.basename(fname)
 
 def run_tests(apk, pipes, u, rzh, au):
 	result = _apkid(apk.filename)
@@ -28,7 +34,7 @@ def run_tests(apk, pipes, u, rzh, au):
 
 	text = ""
 	for file in result['files']:
-		text += file['filename'].split('!')[1] + "\n"
+		text += _clean_name(file['filename']) + "\n"
 		matches = sorted(file['matches'].keys())
 		for key in matches:
 			text += pad_key + key + "\n"
