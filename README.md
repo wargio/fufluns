@@ -2,7 +2,7 @@
 
 # Fufluns
 
-Easy to use APK/IPA Mobile App Inspector (experimental)
+Easy to use APK/IPA Mobile App Inspector
 
 ## Features
 
