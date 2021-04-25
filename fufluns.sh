@@ -3,4 +3,4 @@
 
 SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
 
-python "$SCRIPTPATH/main.py" $@
+python3 "$SCRIPTPATH/main.py" $@
