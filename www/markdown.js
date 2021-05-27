@@ -101,7 +101,7 @@ function addMarkdownSection(m, method, title, newnode, data, collapsed) {
 function mapMarkdownLog(o) {
 	var timestamp = (new Date(o.timestamp * 1000)).toISOString().replace(/\.\d+/g, '');
 	var type = o.type.toUpperCase();
-	type += " ".repeat(7 - type.length);
+	type += " ".repeat(Math.max(7 - type.length, 0));
 	return "[" + timestamp + "] [" + type + "] " + o.log;
 }
 
@@ -109,7 +109,7 @@ function mapMarkdownBinHashes(o, num) {
 	var t = o.filename + '\n';
 	Object.keys(o).sort().forEach(function(k) {
 		if (k == 'filename') return;
-		t += '    ' + k + ": " + " ".repeat(5 - k.length) + o[k].toUpperCase() + '\n';
+		t += '    ' + k + ": " + " ".repeat(Math.max(5 - k.length, 0)) + o[k].toUpperCase() + '\n';
 	});
 	return t.trim();
 }
@@ -143,8 +143,8 @@ function mapMarkdownStrings(o) {
 	var filename = o.filename.substr(0, max_filename);
 	var offset = o.offset.toString(16);
 	var text = asAddress(offset);
-	text += ' | ' + filename + (' '.repeat(max_filename - filename.length));
-	text += ' | ' + type + (' '.repeat(max_type - type.length));
+	text += ' | ' + filename + (' '.repeat(Math.max(max_filename - filename.length, 0)));
+	text += ' | ' + type + (' '.repeat(Math.max(max_type - type.length, 0)));
 	text += ' | ' + o.data.replace(/\n/g, '\\n');
 	return text;
 }
