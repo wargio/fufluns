@@ -2,10 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: archlinux/base:latest
+      - image: alpine:edge
 
     steps:
       - checkout
       - run:
           name: Pyflakes
-          command: pacman -Suuyy --noconfirm python-pyflakes ; pyflakes .
+          command: apk add --no-cache py3-pyflakes ; pyflakes .
