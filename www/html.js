@@ -95,9 +95,7 @@ function mapHtmlBinHashes(o, parent, num) {
 	parent.appendChild(_ce("span", "log-notify", '- ' + o.filename + ' \n'));
 	Object.keys(o).sort().forEach(function(k) {
 		if (k == 'filename') return;
-		var rep = 5 - k.length;
-		if (rep < 0) rep = 0;
-		parent.appendChild(_ce("span", "log-notify", '  + ' + k + ": " + " ".repeat(rep) + o[k].toUpperCase() + '\n'));
+		parent.appendChild(_ce("span", "log-notify", '  + ' + k + ": " + " ".repeat(Math.max(8 - k.length, 0)) + o[k].toUpperCase() + '\n'));
 	});
 }
 

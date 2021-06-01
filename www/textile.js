@@ -105,7 +105,7 @@ function mapTextileBinHashes(o, num) {
 	var t = o.filename + '\n';
 	Object.keys(o).sort().forEach(function(k) {
 		if (k == 'filename') return;
-		t += '    ' + k + ": " + " ".repeat(Math.max(5 - k.length, 0)) + o[k].toUpperCase() + '\n';
+		t += '    ' + k + ": " + " ".repeat(Math.max(8 - k.length, 0)) + o[k].toUpperCase() + '\n';
 	});
 	return t.trim();
 }
