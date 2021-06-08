@@ -20,6 +20,15 @@ def test(ipa, plist, u, key):
 		desc = "Easily discoverable of {} embedded inside the application Info.plist".format(common_api_keys[key][API_DESCRIPTION])
 		u.test(ipa, False, common_api_keys[key][API_DETAILS], desc, common_api_keys[key][API_SEVERITY])
 
+def is_base64(value):
+	return re.match(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", value) is not None
+
+def is_uuid(value):
+	return re.match(r"^\{?[0-9a-fA-F-]+\}?$", value) is not None
+
+def is_hex(value):
+	return re.match(r"^[0-9a-fA-F]+$", value) is not None
+
 def test_recursive(ipa, u, d, file):
 	if not isinstance(d, dict):
 		return
