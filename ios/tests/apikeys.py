@@ -2,6 +2,7 @@
 
 import glob
 import os
+import re
 
 API_DEFAULT_SEVERITY = 6.5
 
