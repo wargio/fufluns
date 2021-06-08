@@ -48,12 +48,18 @@ def run_tests(apk, pipes, u, rzh, au):
 			details  = common_api_keys[key][API_DETAILS]
 			severity = common_api_keys[key][API_SEVERITY]
 			descrip  = "Easily discoverable of {} ({}: {}) embedded inside {}".format(common_api_keys[key][API_DESCRIPTION], key, value, file)
-		elif "api_key" in lkey and " " not in value:
+		elif ("api_key" in lkey or "apikey" in lkey) and " " not in value:
 			details = "Insecure storage of a generic API key in application resource."
 			descrip = "Easily discoverable of API key ({}: {}) embedded inside {}".format(key, value, file)
-		elif "privatekey" in lkey or "private_key" in lkey and " " not in value:
+		elif ("privatekey" in lkey or "private_key" in lkey) and " " not in value:
 			details = "Insecure storage of a generic Private Key in application resource."
 			descrip = "Easily discoverable of Private Key ({}: {}) embedded inside {}".format(key, value, file)
+		elif "secret" in lkey and " " not in value:
+			details = "Insecure storage of a generic Secret in application resource."
+			descrip = "Easily discoverable of Secret ({}: {}) embedded inside {}".format(key, value, file)
+		elif ("appkey" in lkey or "app_key" in lkey) and " " not in value:
+			details = "Insecure storage of a generic Application Key in application resource."
+			descrip = "Easily discoverable of Application Key ({}: {}) embedded inside {}".format(key, value, file)
 		elif "password" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Password in application resource."
 			descrip = "Easily discoverable of Password ({}: {}) embedded inside {}".format(key, value, file)
