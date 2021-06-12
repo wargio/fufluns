@@ -38,7 +38,7 @@ def run_tests(apk, rzs, u, rzh, au):
 			resp = http.request('GET', url)
 			if resp.status == 200:
 				misconfigured.append(project)
-				apk.logger.error("[XX] https://{}.firebaseio.com/ is insecure.".format(project))
+				apk.logger.warning("[XX] https://{}.firebaseio.com/ is insecure.".format(project))
 			elif resp.status == 401:
 				apk.logger.info("[OK] https://{}.firebaseio.com is secure.".format(project))
 			elif resp.status == 404:
@@ -54,7 +54,7 @@ def run_tests(apk, rzs, u, rzh, au):
 			resp = http.request('GET', url)
 			if resp.status == 200:
 				misconfigured.append(project)
-				apk.logger.error("[XX] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is insecure.".format(project))
+				apk.logger.warning("[XX] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is insecure.".format(project))
 			elif resp.status == 401:
 				apk.logger.info("[OK] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is secure.".format(project))
 			elif resp.status == 404:
@@ -66,8 +66,11 @@ def run_tests(apk, rzs, u, rzh, au):
 			apk.logger.error(NO_NETWORK)
 			return
 
+	verb = "found"
+	if len(misconfigured) < 1:
+		verb = "not found"
 
-	msg = "Misconfigured firebaseio instance {0} over {1} found.".format(len(misconfigured), len(projects))
+	msg = "Misconfigured firebaseio instance {}.".format(verb)
 	u.test(apk, len(misconfigured) < 1, msg, DESCRIPTION, SEVERITY)
 
 def name_test():

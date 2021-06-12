@@ -4,6 +4,7 @@ import os
 import re
 import xml.etree.ElementTree as ET
 
+API_GOOGLE_SEVERITY = 2.5
 API_DEFAULT_SEVERITY = 6.5
 
 API_DETAILS     = "details"
@@ -11,9 +12,9 @@ API_DESCRIPTION = "description"
 API_SEVERITY    = "severity"
 
 common_api_keys = {
-	"google_api_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Google API Key found", API_DESCRIPTION: "Google API Key" },
-	"google_maps_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Google Maps Key found", API_DESCRIPTION: "Google Maps Key" },
-	"google_crash_reporting_api_key": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Google Crash Report found", API_DESCRIPTION: "Google Crash Report API Key" },
+	"google_api_key": { API_SEVERITY: API_GOOGLE_SEVERITY, API_DETAILS: "Google API Key found", API_DESCRIPTION: "Google API Key" },
+	"google_maps_key": { API_SEVERITY: API_GOOGLE_SEVERITY, API_DETAILS: "Google Maps Key found", API_DESCRIPTION: "Google Maps Key" },
+	"google_crash_reporting_api_key": { API_SEVERITY: API_GOOGLE_SEVERITY, API_DETAILS: "Google Crash Report found", API_DESCRIPTION: "Google Crash Report API Key" },
 	"seed_crypto_keystore_password": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed Crypto Keystore Password found", API_DESCRIPTION: "Seed Crypto Keystore Password" },
 	"seed_crypto_privatekey_alias": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed Crypto Privatekey Alias found", API_DESCRIPTION: "Seed Crypto Privatekey Alias" },
 	"seed_crypto_privatekey_password": { API_SEVERITY: API_DEFAULT_SEVERITY, API_DETAILS: "Seed Crypto Privatekey Password found", API_DESCRIPTION: "Seed Crypto Privatekey Password" },
