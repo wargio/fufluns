@@ -77,6 +77,7 @@ def run_tests(ipa, rz, u, rzh):
 				resp = http.request('GET', url)
 				if resp.status == 200:
 					misconfigured.append(project)
+					ipa.logger.error("[XX] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is insecure.".format(project))
 				elif resp.status == 401:
 					ipa.logger.info("[OK] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is secure.".format(project))
 				elif resp.status == 404:

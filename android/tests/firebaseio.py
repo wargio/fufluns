@@ -54,6 +54,7 @@ def run_tests(apk, rzs, u, rzh, au):
 			resp = http.request('GET', url)
 			if resp.status == 200:
 				misconfigured.append(project)
+				apk.logger.error("[XX] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is insecure.".format(project))
 			elif resp.status == 401:
 				apk.logger.info("[OK] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ is secure.".format(project))
 			elif resp.status == 404:
