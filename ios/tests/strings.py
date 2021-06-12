@@ -1,5 +1,7 @@
 ## fufluns - Copyright 2019-2021 - deroad
 
+import re, base64
+
 STRINGS_SIGNATURES = [
 	':"',
 	': "',

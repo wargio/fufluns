@@ -2,7 +2,6 @@
 
 import glob
 import os
-import plistlib
 
 SEVERITY="severity"
 DESCRIPTION="description"
@@ -36,7 +35,7 @@ def run_tests(ipa, rz, u, rzh):
 	tmp = [f for f in glob.glob(os.path.join(ipa.directory, "Payload", "*", "Info.plist"), recursive=True)]
 	plist = {}
 	if len(tmp) > 0:
-		plist = plistlib.readPlist(tmp[0])
+		plist = u.load_plist(tmp[0])
 
 	if u.dk(plist, "TSKConfiguration", None) == None:
 		ipa.logger.notify("TrustKit not found")

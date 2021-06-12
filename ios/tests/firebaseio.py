@@ -2,7 +2,6 @@
 
 import glob
 import os
-import plistlib
 import urllib3
 import re
 
@@ -46,7 +45,7 @@ def run_tests(ipa, rz, u, rzh):
 	misconfigured = []
 	plists = glob.glob(os.path.join(ipa.directory, "**", "*.plist"), recursive=True)
 	for file in plists:
-		plist = plistlib.readPlist(file)
+		plist = u.load_plist(file)
 		projects.extend(iterate_object(plist))
 
 	projects = list(filter(lambda x: len(x) > 0, projects))
@@ -62,6 +61,7 @@ def run_tests(ipa, rz, u, rzh):
 				resp = http.request('GET', url)
 				if resp.status == 200:
 					misconfigured.append(project)
+					ipa.logger.error("[XX] https://{}.firebaseio.com/ is insecure.".format(project))
 				elif resp.status == 401:
 					ipa.logger.info("[OK] https://{}.firebaseio.com/ is secure.".format(project))
 				elif resp.status == 404:

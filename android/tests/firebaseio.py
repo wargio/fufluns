@@ -38,15 +38,16 @@ def run_tests(apk, rzs, u, rzh, au):
 			resp = http.request('GET', url)
 			if resp.status == 200:
 				misconfigured.append(project)
+				apk.logger.error("[XX] https://{}.firebaseio.com/ is insecure.".format(project))
 			elif resp.status == 401:
 				apk.logger.info("[OK] https://{}.firebaseio.com is secure.".format(project))
 			elif resp.status == 404:
 				apk.logger.notify("[--] https://{}.firebaseio.com/ was not found.".format(project))
 		except urllib3.exceptions.NewConnectionError:
-			ipa.logger.error(NO_NETWORK)
+			apk.logger.error(NO_NETWORK)
 			return
 		except urllib3.exceptions.MaxRetryError:
-			ipa.logger.error(NO_NETWORK)
+			apk.logger.error(NO_NETWORK)
 			return
 		url = 'https://firestore.googleapis.com/v1/projects/{}/databases/(default)/'.format(project)
 		try:
@@ -58,10 +59,10 @@ def run_tests(apk, rzs, u, rzh, au):
 			elif resp.status == 404:
 				apk.logger.notify("[--] https://firestore.googleapis.com/v1/projects/{}/databases/(default)/ was not found.".format(project))
 		except urllib3.exceptions.NewConnectionError:
-			ipa.logger.error(NO_NETWORK)
+			apk.logger.error(NO_NETWORK)
 			return
 		except urllib3.exceptions.MaxRetryError:
-			ipa.logger.error(NO_NETWORK)
+			apk.logger.error(NO_NETWORK)
 			return
 
 
