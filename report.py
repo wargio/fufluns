@@ -171,7 +171,7 @@ class Extra(object):
 
 	def add_text_file(self, filename):
 		basename = os.path.basename(filename)
-		with open(filename, "r") as fp:
+		with open(filename, 'r', errors='replace') as fp:
 			self.add(basename, "".join(fp.readlines()))
 
 	def json(self):

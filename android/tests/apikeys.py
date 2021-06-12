@@ -32,7 +32,6 @@ def is_hex(value):
 def run_tests(apk, pipes, u, rzh, au):
 	file = os.path.join("res", "values", "strings.xml")
 	manifest = os.path.join(apk.apktool, file)
-	apk.extra.add_text_file(manifest)
 	root = ET.parse(manifest).getroot()
 	tags = root.findall("string")
 	for tag in tags:
