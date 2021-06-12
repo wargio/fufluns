@@ -4,7 +4,12 @@ import glob
 import os
 import re
 
+API_GOOGLE_FILE = "GoogleService-Info.plist"
+API_GOOGLE_PROVIDER = "Google"
+API_GOOGLE_SEVERITY = 2.5
+
 API_DEFAULT_SEVERITY = 6.5
+API_DEFAULT_PROVIDER = "generic"
 
 API_DETAILS     = "details"
 API_DESCRIPTION = "description"
@@ -35,8 +40,14 @@ def test_recursive(ipa, u, d, file):
 		return
 	for key in d:
 		severity = API_DEFAULT_SEVERITY
+		provider = API_DEFAULT_PROVIDER
 		details  = ""
 		descrip  = ""
+
+		if file.endswith(API_GOOGLE_FILE):
+			severity = API_GOOGLE_SEVERITY
+			provider = API_GOOGLE_PROVIDER
+
 		lkey  = key.lower()
 		if key in common_api_keys:
 			continue
@@ -47,26 +58,30 @@ def test_recursive(ipa, u, d, file):
 		elif not isinstance(value, str):
 			continue
 		elif ("api_key" in lkey or "apikey" in lkey) and " " not in value:
-			details = "Insecure storage of a generic API key in application resource."
-			descrip = "Easily discoverable of API key ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} API key in application resource.".format(provider)
+			descrip = "Easily discoverable API key ({}: {}) embedded inside {}".format(key, value, file)
 		elif ("privatekey" in lkey or "private_key" in lkey) and " " not in value:
-			details = "Insecure storage of a generic Private Key in application resource."
-			descrip = "Easily discoverable of Private Key ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} Private Key in application resource.".format(provider)
+			descrip = "Easily discoverable Private Key ({}: {}) embedded inside {}".format(key, value, file)
 		elif "secret" in lkey and " " not in value:
-			details = "Insecure storage of a generic Secret in application resource."
-			descrip = "Easily discoverable of Secret ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} Secret in application resource.".format(provider)
+			descrip = "Easily discoverable Secret ({}: {}) embedded inside {}".format(key, value, file)
 		elif ("appkey" in lkey or "app_key" in lkey) and " " not in value:
-			details = "Insecure storage of a generic Application Key in application resource."
-			descrip = "Easily discoverable of Application Key ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} Application Key in application resource.".format(provider)
+			descrip = "Easily discoverable Application Key ({}: {}) embedded inside {}".format(key, value, file)
 		elif "password" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
-			details = "Insecure storage of a generic Password in application resource."
-			descrip = "Easily discoverable of Password ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} Password in application resource.".format(provider)
+			descrip = "Easily discoverable Password ({}: {}) embedded inside {}".format(key, value, file)
 		elif "token" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
-			details = "Insecure storage of a generic Token in application resource."
-			descrip = "Easily discoverable of Token ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} Token in application resource.".format(provider)
+			descrip = "Easily discoverable Token ({}: {}) embedded inside {}".format(key, value, file)
 		elif "seed" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
-			details = "Insecure storage of a generic Seed in application resource."
-			descrip = "Easily discoverable of Seed ({}: {}) embedded inside {}".format(key, value, file)
+			details = "Insecure storage of a {} Seed in application resource.".format(provider)
+			descrip = "Easily discoverable Seed ({}: {}) embedded inside {}".format(key, value, file)
+		elif "nonce" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
+			details = "Insecure storage of a {} Nonce in application resource.".format(provider)
+			descrip = "Easily discoverable Nonce ({}: {}) embedded inside {}".format(key, value, file)
+
 		if len(descrip) > 0 and len(details) > 0:
 			u.test(ipa, False, details, descrip, severity)
 
