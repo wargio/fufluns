@@ -48,28 +48,28 @@ def test_recursive(ipa, u, d, file):
 			continue
 		elif ("api_key" in lkey or "apikey" in lkey) and " " not in value:
 			details = "Insecure storage of a generic API key in application resource."
-			descrip = "Easily discoverable of API key ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable API key ({}: {}) embedded inside {}".format(key, value, file)
 		elif ("privatekey" in lkey or "private_key" in lkey) and " " not in value:
 			details = "Insecure storage of a generic Private Key in application resource."
-			descrip = "Easily discoverable of Private Key ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Private Key ({}: {}) embedded inside {}".format(key, value, file)
 		elif "secret" in lkey and " " not in value:
 			details = "Insecure storage of a generic Secret in application resource."
-			descrip = "Easily discoverable of Secret ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Secret ({}: {}) embedded inside {}".format(key, value, file)
 		elif ("appkey" in lkey or "app_key" in lkey) and " " not in value:
 			details = "Insecure storage of a generic Application Key in application resource."
-			descrip = "Easily discoverable of Application Key ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Application Key ({}: {}) embedded inside {}".format(key, value, file)
 		elif "password" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Password in application resource."
-			descrip = "Easily discoverable of Password ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Password ({}: {}) embedded inside {}".format(key, value, file)
 		elif "token" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Token in application resource."
-			descrip = "Easily discoverable of Token ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Token ({}: {}) embedded inside {}".format(key, value, file)
 		elif "seed" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Seed in application resource."
-			descrip = "Easily discoverable of Seed ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Seed ({}: {}) embedded inside {}".format(key, value, file)
 		elif "nonce" in lkey and (is_base64(value) or is_uuid(value) or is_hex(value)):
 			details = "Insecure storage of a generic Nonce in application resource."
-			descrip = "Easily discoverable of Nonce ({}: {}) embedded inside {}".format(key, value, file)
+			descrip = "Easily discoverable Nonce ({}: {}) embedded inside {}".format(key, value, file)
 
 		if len(descrip) > 0 and len(details) > 0:
 			u.test(ipa, False, details, descrip, severity)
