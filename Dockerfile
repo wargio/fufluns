@@ -6,7 +6,7 @@ WORKDIR /
 RUN apk add --update py-pip wget curl tar unzip xz git bash openjdk11 android-tools alpine-sdk python3-dev
 RUN mkdir -p /fufluns || sleep 0
 RUN pip install tornado rzpipe wheel apkid
-RUN wget -q https://github.com/rizinorg/rizin/releases/download/v0.2.1/rizin-v0.2.1-static-x86_64.tar.xz -O rizin.tar.xz && tar -xvkf rizin.tar.xz && rm -rf rizin.tar.xz
+RUN wget -q https://github.com/rizinorg/rizin/releases/download/v0.3.1/rizin-v0.3.1-static-x86_64.tar.xz -O rizin.tar.xz && tar -xvkf rizin.tar.xz && rm -rf rizin.tar.xz
 
 RUN pip wheel --wheel-dir=/tmp-build/yara-python --build-option="build" --build-option="--enable-dex" git+https://github.com/VirusTotal/yara-python.git@v3.11.0 && \
 	pip uninstall -y yara-python && \
