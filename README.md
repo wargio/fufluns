@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/wargio/fufluns/tree/master.svg?style=svg)](https://circleci.com/gh/wargio/fufluns/tree/master) [![Docker Builds](https://img.shields.io/docker/cloud/build/deroad/fufluns)](https://hub.docker.com/r/deroad/fufluns/tags) [![Docker Pulls](https://img.shields.io/docker/pulls/deroad/fufluns)](https://hub.docker.com/r/deroad/fufluns/tags) [![Docker Builds](https://img.shields.io/docker/image-size/deroad/fufluns)](https://hub.docker.com/r/deroad/fufluns/tags)
+[![CircleCI](https://circleci.com/gh/wargio/fufluns/tree/master.svg?style=svg)](https://circleci.com/gh/wargio/fufluns/tree/master) [![Docker Build](https://github.com/wargio/fufluns/actions/workflows/ci.yaml/badge.svg)](https://github.com/wargio/fufluns/actions/workflows/ci.yaml) [![Docker Pulls](https://img.shields.io/docker/pulls/deroad/fufluns)](https://hub.docker.com/r/deroad/fufluns/tags) [![Docker Builds](https://img.shields.io/docker/image-size/deroad/fufluns)](https://hub.docker.com/r/deroad/fufluns/tags)
 
 # Fufluns
 
